@@ -82,7 +82,7 @@ export const Header: React.FC<Props> = ({ activeTab, setActiveTab, onDownloadZip
             }`}
           >
             <Zap className="w-4 h-4 text-amber-400" />
-            <span className="font-bold">Edit File & AI Mod</span>
+            <span className="font-bold">Web Game F12 & AI Mod</span>
           </button>
 
           <button

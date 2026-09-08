@@ -4,8 +4,9 @@ import {
   Upload, RefreshCw, Zap, Coins, Trophy, Shield, 
   KeyRound, HelpCircle, ArrowRight, CheckCircle2, 
   AlertCircle, Undo, Wand2, Terminal, Code2, Gamepad2,
-  HardDrive, Folder
+  HardDrive, Folder, Monitor, Camera
 } from 'lucide-react';
+import { WebGameConsoleModder } from './WebGameConsoleModder';
 
 interface PresetSample {
   id: string;
@@ -87,6 +88,7 @@ const PRESET_SAMPLES: PresetSample[] = [
 ];
 
 export const CookieFileEditor: React.FC = () => {
+  const [activeSubTab, setActiveSubTab] = useState<'web_console' | 'file_json'>('web_console');
   const [selectedSample, setSelectedSample] = useState<PresetSample>(PRESET_SAMPLES[0]);
   const [fileContent, setFileContent] = useState<string>(PRESET_SAMPLES[0].content);
   const [userPrompt, setUserPrompt] = useState<string>(PRESET_SAMPLES[0].defaultPrompt);
@@ -294,54 +296,108 @@ export const CookieFileEditor: React.FC = () => {
 
   return (
     <div className="w-full flex flex-col gap-6 text-slate-200">
-      {/* Banner Giới Thiệu Tính Năng Edit & AI Modding */}
-      <div className="bg-gradient-to-r from-amber-950/60 via-slate-900 to-purple-950/60 border border-amber-500/30 rounded-2xl p-6 sm:p-7 shadow-xl">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              AI-Powered Game & Cookie Modder (Gemini 3.8 Flash)
-            </div>
-            <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
-              Chỉnh Sửa File & Cookies — AI Sửa Giùm: "Cày Lâu? Edit Lên Giàu!"
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-3xl leading-relaxed">
-              Chọn tệp qua hộp thoại đồ họa (chống gõ sai đường dẫn). AI sẽ tự động phân tích biến (vàng, kim cương, level, hạn cookie) và sửa chính xác. Bạn có thể lưu lại bản thủ công để lần sau feed vô lại dễ dàng!
-            </p>
-          </div>
+      {/* THANH CHUYỂN ĐỔI 2 CHẾ ĐỘ TIỆN ÍCH CHO NGƯỜI DÙNG */}
+      <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-2 flex flex-col sm:flex-row items-center justify-between gap-2 shadow-lg">
+        <div className="flex items-center gap-1.5 w-full sm:w-auto">
+          <button
+            onClick={() => setActiveSubTab('web_console')}
+            className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              activeSubTab === 'web_console'
+                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-md shadow-indigo-950/50'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+            }`}
+          >
+            <Terminal className="w-4 h-4 text-amber-300" />
+            <span>⚡ Web Game: Lệnh Chrome Console (F12) & Soi Màn Hình</span>
+            <span className="hidden md:inline-block text-[10px] bg-amber-400/20 text-amber-300 px-1.5 py-0.2 rounded font-mono">
+              1-Click
+            </span>
+          </button>
 
-          <div className="flex flex-col sm:flex-row items-center gap-2 shrink-0 w-full sm:w-auto">
-            <label className="w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-md">
-              <Upload className="w-4 h-4" />
-              <span>📁 Chọn Tệp Qua Hộp Thoại...</span>
-              <input type="file" onChange={handleFileUpload} className="hidden" accept=".json,.txt,.cookie,.dat,.sav" />
-            </label>
-          </div>
+          <button
+            onClick={() => setActiveSubTab('file_json')}
+            className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              activeSubTab === 'file_json'
+                ? 'bg-gradient-to-r from-amber-600 to-amber-500 text-slate-950 shadow-md shadow-amber-950/40'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+            }`}
+          >
+            <FileCode className="w-4 h-4" />
+            <span>📁 Bỏ File JSON / Save Vào Sửa (Tải File & Feed Manual)</span>
+          </button>
         </div>
 
-        {/* Thanh trạng thái tệp đã nạp từ máy */}
-        {uploadedFileInfo && (
-          <div className="mt-4 p-3 rounded-lg bg-slate-950/80 border border-amber-500/40 flex items-center justify-between animate-fadeIn">
-            <div className="flex items-center gap-2.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <div className="text-xs">
-                <span className="font-semibold text-slate-200">Đã nạp tệp an toàn: </span>
-                <span className="font-mono text-amber-300 font-bold">{uploadedFileInfo.name}</span>
-                <span className="text-slate-400 ml-2">({uploadedFileInfo.size})</span>
-                <span className="ml-2 text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800">
-                  ✓ Không cần gõ vị trí - Chống chọn nhầm chỗ
-                </span>
+        <div className="hidden lg:flex items-center gap-2 text-[11px] text-slate-400 px-3">
+          {activeSubTab === 'web_console' ? (
+            <span className="flex items-center gap-1.5 text-indigo-300">
+              <Sparkles className="w-3.5 h-3.5" />
+              Chạy trực tiếp trên trình duyệt bằng F12 Console — Không cần tải file!
+            </span>
+          ) : (
+            <span className="flex items-center gap-1.5 text-amber-300">
+              <HardDrive className="w-3.5 h-3.5" />
+              Chỉnh sửa tệp JSON save game offline & xuất file về máy
+            </span>
+          )}
+        </div>
+      </div>
+
+      {/* CHẾ ĐỘ 1: WEB GAME CHROME CONSOLE (F12) & SOI MÀN HÌNH */}
+      {activeSubTab === 'web_console' && (
+        <WebGameConsoleModder />
+      )}
+
+      {/* CHẾ ĐỘ 2: SỬA TỆP JSON / SAVE GAME / COOKIES FILE */}
+      {activeSubTab === 'file_json' && (
+        <>
+          {/* Banner Giới Thiệu Tính Năng Edit & AI Modding */}
+          <div className="bg-gradient-to-r from-amber-950/60 via-slate-900 to-purple-950/60 border border-amber-500/30 rounded-2xl p-6 sm:p-7 shadow-xl">
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+              <div>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-semibold mb-2">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  AI-Powered Game & Cookie Modder (Gemini 3.8 Flash)
+                </div>
+                <h2 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight">
+                  Chỉnh Sửa File & Cookies — AI Sửa Giùm: "Cày Lâu? Edit Lên Giàu!"
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-3xl leading-relaxed">
+                  Chọn tệp qua hộp thoại đồ họa (chống gõ sai đường dẫn). AI sẽ tự động phân tích biến (vàng, kim cương, level, hạn cookie) và sửa chính xác. Bạn có thể lưu lại bản thủ công để lần sau feed vô lại dễ dàng!
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-2 shrink-0 w-full sm:w-auto">
+                <label className="w-full sm:w-auto px-4 py-2.5 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-md">
+                  <Upload className="w-4 h-4" />
+                  <span>📁 Chọn Tệp Qua Hộp Thoại...</span>
+                  <input type="file" onChange={handleFileUpload} className="hidden" accept=".json,.txt,.cookie,.dat,.sav" />
+                </label>
               </div>
             </div>
-            <button
-              onClick={() => setUploadedFileInfo(null)}
-              className="text-xs text-slate-400 hover:text-slate-200 px-2 py-1 rounded"
-            >
-              ✕
-            </button>
+
+            {/* Thanh trạng thái tệp đã nạp từ máy */}
+            {uploadedFileInfo && (
+              <div className="mt-4 p-3 rounded-lg bg-slate-950/80 border border-amber-500/40 flex items-center justify-between animate-fadeIn">
+                <div className="flex items-center gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <div className="text-xs">
+                    <span className="font-semibold text-slate-200">Đã nạp tệp an toàn: </span>
+                    <span className="font-mono text-amber-300 font-bold">{uploadedFileInfo.name}</span>
+                    <span className="text-slate-400 ml-2">({uploadedFileInfo.size})</span>
+                    <span className="ml-2 text-[10px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800">
+                      ✓ Không cần gõ vị trí - Chống chọn nhầm chỗ
+                    </span>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setUploadedFileInfo(null)}
+                  className="text-xs text-slate-400 hover:text-slate-200 px-2 py-1 rounded"
+                >
+                  ✕
+                </button>
+              </div>
+            )}
           </div>
-        )}
-      </div>
 
       {/* THƯ VIỆN BẢN LƯU THỦ CÔNG (MANUAL SAVED FILES & FEED-IN HUB) */}
       <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col gap-3">
@@ -708,6 +764,8 @@ export const CookieFileEditor: React.FC = () => {
           )}
         </div>
       </div>
-    </div>
+    </>
+  )}
+</div>
   );
 };
