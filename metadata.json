@@ -1,0 +1,6 @@
+{
+  "name": "Chrome Full Backup & 1-Click Restore",
+  "description": "Ứng dụng Desktop Python GUI (.exe) tự động sao lưu 100% tất cả Chrome Profiles, Cookies, Tabs, cùng tính năng AI hỗ trợ chỉnh sửa Cookies & File Save Game lên giàu tức thì.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
