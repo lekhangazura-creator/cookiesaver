@@ -1,1 +1,277 @@
 @import "tailwindcss";
+
+/* ==========================================================================
+   DYNAMIC THEME STYLES (Light Titanium, Light Nordic, Cyber OLED, Emerald, Sepia, Royal Amethyst, Custom)
+   ========================================================================== */
+
+:root {
+  --custom-bg: #020617;
+  --custom-card: #0f172a;
+  --custom-border: #1e293b;
+  --custom-text: #f8fafc;
+  --custom-accent: #10b981;
+  --custom-radius: 12px;
+}
+
+html {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* 1. CHẾ ĐỘ SÁNG (LIGHT TITANIUM & LIGHT NORDIC) */
+[data-theme="light"],
+[data-theme="light-titanium"] {
+  color-scheme: light;
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] body,
+[data-theme="light-titanium"] body {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .bg-slate-950,
+[data-theme="light-titanium"] .bg-slate-950 {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .bg-slate-900,
+[data-theme="light"] .bg-slate-900\/90,
+[data-theme="light"] .bg-slate-900\/80,
+[data-theme="light"] .bg-slate-900\/60,
+[data-theme="light"] .bg-slate-900\/40,
+[data-theme="light-titanium"] .bg-slate-900,
+[data-theme="light-titanium"] .bg-slate-900\/90,
+[data-theme="light-titanium"] .bg-slate-900\/80,
+[data-theme="light-titanium"] .bg-slate-900\/60,
+[data-theme="light-titanium"] .bg-slate-900\/40 {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+}
+
+[data-theme="light"] .bg-slate-950\/80,
+[data-theme="light"] .bg-slate-950\/70,
+[data-theme="light"] .bg-slate-950\/50,
+[data-theme="light"] .bg-slate-950\/40,
+[data-theme="light-titanium"] .bg-slate-950\/80,
+[data-theme="light-titanium"] .bg-slate-950\/70,
+[data-theme="light-titanium"] .bg-slate-950\/50,
+[data-theme="light-titanium"] .bg-slate-950\/40 {
+  background-color: #f1f5f9 !important;
+}
+
+[data-theme="light"] .bg-slate-800,
+[data-theme="light"] .bg-slate-800\/90,
+[data-theme="light"] .bg-slate-800\/80,
+[data-theme="light"] .bg-slate-800\/50,
+[data-theme="light-titanium"] .bg-slate-800,
+[data-theme="light-titanium"] .bg-slate-800\/90,
+[data-theme="light-titanium"] .bg-slate-800\/80,
+[data-theme="light-titanium"] .bg-slate-800\/50 {
+  background-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .border-slate-800,
+[data-theme="light"] .border-slate-800\/80,
+[data-theme="light"] .border-slate-800\/60,
+[data-theme="light"] .border-slate-800\/50,
+[data-theme="light"] .border-slate-700,
+[data-theme="light"] .border-slate-700\/80,
+[data-theme="light-titanium"] .border-slate-800,
+[data-theme="light-titanium"] .border-slate-800\/80,
+[data-theme="light-titanium"] .border-slate-800\/60,
+[data-theme="light-titanium"] .border-slate-800\/50,
+[data-theme="light-titanium"] .border-slate-700,
+[data-theme="light-titanium"] .border-slate-700\/80 {
+  border-color: #e2e8f0 !important;
+}
+
+[data-theme="light"] .text-white,
+[data-theme="light"] .text-slate-100,
+[data-theme="light"] .text-slate-200,
+[data-theme="light-titanium"] .text-white,
+[data-theme="light-titanium"] .text-slate-100,
+[data-theme="light-titanium"] .text-slate-200 {
+  color: #0f172a !important;
+}
+
+[data-theme="light"] .text-slate-300,
+[data-theme="light"] .text-slate-400,
+[data-theme="light-titanium"] .text-slate-300,
+[data-theme="light-titanium"] .text-slate-400 {
+  color: #475569 !important;
+}
+
+[data-theme="light"] .text-slate-500,
+[data-theme="light-titanium"] .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* 2. CHẾ ĐỘ SÁNG LIGHT NORDIC (FROST WHITE) */
+[data-theme="light-nordic"] {
+  color-scheme: light;
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+[data-theme="light-nordic"] body {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+[data-theme="light-nordic"] .bg-slate-950 {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+[data-theme="light-nordic"] .bg-slate-900,
+[data-theme="light-nordic"] .bg-slate-900\/90,
+[data-theme="light-nordic"] .bg-slate-900\/80,
+[data-theme="light-nordic"] .bg-slate-900\/60 {
+  background-color: #ffffff !important;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+}
+[data-theme="light-nordic"] .bg-slate-800 {
+  background-color: #e2e8f0 !important;
+}
+[data-theme="light-nordic"] .border-slate-800,
+[data-theme="light-nordic"] .border-slate-700 {
+  border-color: #cbd5e1 !important;
+}
+[data-theme="light-nordic"] .text-white,
+[data-theme="light-nordic"] .text-slate-100,
+[data-theme="light-nordic"] .text-slate-200 {
+  color: #0f172a !important;
+}
+[data-theme="light-nordic"] .text-slate-300,
+[data-theme="light-nordic"] .text-slate-400 {
+  color: #334155 !important;
+}
+
+/* 3. CHẾ ĐỘ CYBER OLED (PURE BLACK #000000) */
+[data-theme="cyber-oled"] {
+  background-color: #000000 !important;
+}
+[data-theme="cyber-oled"] body {
+  background-color: #000000 !important;
+}
+[data-theme="cyber-oled"] .bg-slate-950 {
+  background-color: #000000 !important;
+}
+[data-theme="cyber-oled"] .bg-slate-900,
+[data-theme="cyber-oled"] .bg-slate-900\/90,
+[data-theme="cyber-oled"] .bg-slate-900\/80,
+[data-theme="cyber-oled"] .bg-slate-900\/60 {
+  background-color: #09090b !important;
+}
+[data-theme="cyber-oled"] .bg-slate-800 {
+  background-color: #18181b !important;
+}
+[data-theme="cyber-oled"] .border-slate-800,
+[data-theme="cyber-oled"] .border-slate-700 {
+  border-color: #27272a !important;
+}
+
+/* 4. CHẾ ĐỘ EMERALD MATRIX */
+[data-theme="emerald"] {
+  background-color: #021a12 !important;
+}
+[data-theme="emerald"] body {
+  background-color: #021a12 !important;
+}
+[data-theme="emerald"] .bg-slate-950 {
+  background-color: #021a12 !important;
+}
+[data-theme="emerald"] .bg-slate-900,
+[data-theme="emerald"] .bg-slate-900\/90,
+[data-theme="emerald"] .bg-slate-900\/80,
+[data-theme="emerald"] .bg-slate-900\/60 {
+  background-color: #062b1f !important;
+}
+[data-theme="emerald"] .bg-slate-800 {
+  background-color: #0b3b2c !important;
+}
+[data-theme="emerald"] .border-slate-800,
+[data-theme="emerald"] .border-slate-700 {
+  border-color: #0d4633 !important;
+}
+
+/* 5. CHẾ ĐỘ SEPIA / COFFEE COMFORT */
+[data-theme="sepia"] {
+  background-color: #171412 !important;
+}
+[data-theme="sepia"] body {
+  background-color: #171412 !important;
+}
+[data-theme="sepia"] .bg-slate-950 {
+  background-color: #171412 !important;
+}
+[data-theme="sepia"] .bg-slate-900,
+[data-theme="sepia"] .bg-slate-900\/90,
+[data-theme="sepia"] .bg-slate-900\/80,
+[data-theme="sepia"] .bg-slate-900\/60 {
+  background-color: #24201c !important;
+}
+[data-theme="sepia"] .bg-slate-800 {
+  background-color: #332d28 !important;
+}
+[data-theme="sepia"] .border-slate-800,
+[data-theme="sepia"] .border-slate-700 {
+  border-color: #3b352f !important;
+}
+
+/* 6. CHẾ ĐỘ ROYAL AMETHYST (DEEP PURPLE) */
+[data-theme="royal-amethyst"] {
+  background-color: #0c0714 !important;
+}
+[data-theme="royal-amethyst"] body {
+  background-color: #0c0714 !important;
+}
+[data-theme="royal-amethyst"] .bg-slate-950 {
+  background-color: #0c0714 !important;
+}
+[data-theme="royal-amethyst"] .bg-slate-900,
+[data-theme="royal-amethyst"] .bg-slate-900\/90,
+[data-theme="royal-amethyst"] .bg-slate-900\/80,
+[data-theme="royal-amethyst"] .bg-slate-900\/60 {
+  background-color: #180f28 !important;
+}
+[data-theme="royal-amethyst"] .bg-slate-800 {
+  background-color: #251640 !important;
+}
+[data-theme="royal-amethyst"] .border-slate-800,
+[data-theme="royal-amethyst"] .border-slate-700 {
+  border-color: #3b2366 !important;
+}
+
+/* 7. CHẾ ĐỘ TỰ EDIT (CUSTOM THEME) */
+[data-theme="custom"] {
+  background-color: var(--custom-bg) !important;
+}
+[data-theme="custom"] body {
+  background-color: var(--custom-bg) !important;
+}
+[data-theme="custom"] .bg-slate-950 {
+  background-color: var(--custom-bg) !important;
+}
+[data-theme="custom"] .bg-slate-900,
+[data-theme="custom"] .bg-slate-900\/90,
+[data-theme="custom"] .bg-slate-900\/80,
+[data-theme="custom"] .bg-slate-900\/60 {
+  background-color: var(--custom-card) !important;
+}
+[data-theme="custom"] .bg-slate-800 {
+  background-color: var(--custom-border) !important;
+}
+[data-theme="custom"] .border-slate-800,
+[data-theme="custom"] .border-slate-700 {
+  border-color: var(--custom-border) !important;
+}
+[data-theme="custom"] .text-white,
+[data-theme="custom"] .text-slate-100 {
+  color: var(--custom-text) !important;
+}
+[data-theme="custom"] .rounded-xl,
+[data-theme="custom"] .rounded-2xl {
+  border-radius: var(--custom-radius) !important;
+}
+

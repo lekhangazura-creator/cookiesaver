@@ -1,12 +1,108 @@
 import React from 'react';
 import { 
   AlertTriangle, ShieldCheck, Database, Key, 
-  Layers, Clock, CheckCircle2, FileQuestion, HelpCircle 
+  Layers, Clock, CheckCircle2, FileQuestion, HelpCircle, FolderCheck, HardDrive
 } from 'lucide-react';
 
 export const TechGuide: React.FC = () => {
   return (
     <div className="w-full flex flex-col gap-6 text-slate-300">
+      {/* Khối: Lưu thẳng toàn bộ cả thư mục Chrome (C:\Users\...\AppData\Local\Google\Chrome) */}
+      <div className="bg-gradient-to-br from-emerald-950/50 via-slate-900 to-slate-950 border border-emerald-500/40 rounded-2xl p-6 sm:p-7 flex flex-col gap-4 shadow-xl">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0">
+            <FolderCheck className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="text-lg font-bold text-white">
+                Cơ Chế Mới: Lưu Thẳng Toàn Bộ Cả Thư Mục Chrome
+              </h3>
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Khuyên Dùng Nhất
+              </span>
+            </div>
+            <p className="text-xs text-emerald-300/80">
+              Đường dẫn: <code className="font-mono text-white bg-slate-800/80 px-1.5 py-0.5 rounded">%LOCALAPPDATA%\Google\Chrome</code> — Lưu trọn vẹn 100% mọi tệp, không tách riêng Cookie hay Profile
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs mt-1">
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col gap-2">
+            <span className="font-semibold text-emerald-400 flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4" />
+              1. Không Cần Chia 2 Việc Phức Tạp
+            </span>
+            <p className="text-slate-400 leading-relaxed">
+              Trước đây bạn phải xuất Cookie riêng và lưu Profile riêng. Giờ đây công cụ lưu <strong>thẳng toàn bộ cả thư mục Chrome</strong> (<code className="text-slate-200">Google\Chrome</code>). Mọi tệp tin, từ <code className="text-white">User Data</code>, <code className="text-white">Local State</code>, tất cả profiles đến mọi extensions đều nằm chung trong 1 tệp duy nhất.
+            </p>
+          </div>
+
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col gap-2">
+            <span className="font-semibold text-emerald-400 flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4" />
+              2. Đảm Bảo Khóa Giải Mã Không Lệch
+            </span>
+            <p className="text-slate-400 leading-relaxed">
+              Vì toàn bộ thư mục Chrome được đóng gói cùng nhau, tệp mã hóa <code className="text-white">Local State</code> và cơ sở dữ liệu <code className="text-white">Network/Cookies</code> luôn đồng bộ tuyệt đối về mốc thời gian. Khi khôi phục, Chrome mở lên có sẵn 100% cookie mà không bị coi là Guest!
+            </p>
+          </div>
+
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col gap-2">
+            <span className="font-semibold text-emerald-400 flex items-center gap-1.5">
+              <CheckCircle2 className="w-4 h-4" />
+              3. Phục Hồi 1-Click Vào Đúng Vị Trí
+            </span>
+            <p className="text-slate-400 leading-relaxed">
+              Khi nhấn <strong>[1-CLICK AUTO RESTORE]</strong>, script tự nhận diện và giải nén toàn bộ tệp vào <code className="text-emerald-300">%LOCALAPPDATA%\Google\Chrome</code>, tự vá cờ Normal Exit và bật Chrome lên cho bạn ngay tức khắc.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Khối giải thích tại sao restore bị giống Guest hoặc không có Cookie */}
+      <div className="bg-slate-900 border border-amber-500/30 rounded-2xl p-6 sm:p-7 flex flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+            <HelpCircle className="w-5 h-5" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">
+              Tại Sao Khôi Phục Lại Thấy Profiles Rỗng, Mất Cookies Hoặc Giống Như "Guest Mode"?
+            </h3>
+            <p className="text-xs text-amber-300/80">
+              Nguyên nhân chính xác từ cơ chế nén file và cách khắc phục 100% thành công
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs mt-1">
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col gap-2">
+            <span className="font-semibold text-rose-400">1. Tệp Backup Cũ Bị Nén Dở Dang</span>
+            <p className="text-slate-400 leading-relaxed">
+              Tệp backup cũ (ví dụ tệp 143.7 MB bị lỗi <code className="text-rose-300">File is not a zip file</code>) đã bị tắt ngang giữa chừng khi nén. Nó <strong>chỉ kịp tạo các thư mục Profile rỗng</strong>, còn toàn bộ tệp database <code className="text-white">Network/Cookies</code> (chứa token đăng nhập) và <code className="text-white">Login Data</code> (mật khẩu) nằm ở phần sau nên <strong>chưa kịp được nén vào file</strong>! Khi Chrome mở lên chỉ thấy folder rỗng nên tự đưa về trạng thái trắng (Guest).
+            </p>
+          </div>
+
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col gap-2">
+            <span className="font-semibold text-amber-400">2. Cờ "Crashed" Khóa Phiên Làm Việc</span>
+            <p className="text-slate-400 leading-relaxed">
+              Khi tiến trình Chrome bị đóng đột ngột, Chrome tự động ghi cờ <code className="text-amber-300">exit_type: "Crashed"</code> vào tệp Preferences. Khi mở lại, Chrome sẽ cách ly phiên làm việc cũ hoặc bật màn hình chọn tài khoản/Guest. Bản cập nhật mới đã tích hợp tính năng <strong>tự động dọn cờ về Normal Clean Exit</strong> giúp Chrome nạp ngay lập tức.
+            </p>
+          </div>
+
+          <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col gap-2">
+            <span className="font-semibold text-emerald-400">3. Cách Khắc Phục Dứt Điểm</span>
+            <p className="text-slate-400 leading-relaxed">
+              Hãy tải bản Python Script mới nhất:
+              <br />• Nhấn nút màu xanh lá <strong>[1-CLICK AUTO BACKUP]</strong>: Bản mới nén siêu tốc chỉ 5-10 giây, đảm bảo 100% tệp Cookies và Local State được đóng gói trọn vẹn.
+              <br />• Sau đó nhấn <strong>[1-CLICK AUTO RESTORE]</strong>: Chrome sẽ mở lại với đầy đủ tài khoản Facebook, Google, Shopee đã đăng nhập sẵn!
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* Khối giải thích căn nguyên lỗi Chrome reset */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-7 flex flex-col gap-4">
         <div className="flex items-center gap-3">

@@ -96,25 +96,25 @@ export const DesktopGuiSimulator: React.FC<Props> = ({ onDownloadScript, onDownl
       id: '1',
       timestamp: '10:00:01',
       type: 'info',
-      text: 'Khởi động ứng dụng Chrome 100% Full Backup & 1-Click Auto Restore Engine (Python GUI).'
+      text: 'Khởi động Chrome 100% Full Backup Engine (Chế độ lưu trọn vẹn cả thư mục Chrome).'
     },
     {
       id: '2',
       timestamp: '10:00:02',
       type: 'info',
-      text: 'Đường dẫn dữ liệu: C:\\Users\\Administrator\\AppData\\Local\\Google\\Chrome\\User Data'
+      text: 'Thư mục gốc: C:\\Users\\Lekha\\AppData\\Local\\Google\\Chrome (Lưu trực tiếp tất cả file, không chia nhỏ Profile hay Cookie)'
     },
     {
       id: '3',
       timestamp: '10:00:02',
       type: 'success',
-      text: 'Đã nhận diện 3 Chrome Profiles: "Default", "Profile 1", "Profile 2" cùng toàn bộ Cookies, Mật khẩu, Extensions và Sessions.'
+      text: 'Đã nhận diện toàn bộ User Data, Local State, 3 Profiles ("Default", "Profile 1", "Profile 2"), Cookies SQLite & Extensions.'
     },
     {
       id: '4',
       timestamp: '10:00:03',
       type: 'step',
-      text: 'Sẵn sàng! Nhấn "1-Click Auto Backup" để lưu trữ toàn bộ hoặc "1-Click Auto Restore" để tự động khôi phục 100% không cần làm thủ công.'
+      text: 'Sẵn sàng! Nhấn [1-CLICK AUTO BACKUP] để nén toàn bộ cả thư mục Chrome hoặc [1-CLICK AUTO RESTORE] để tự động phục hồi.'
     }
   ]);
 
