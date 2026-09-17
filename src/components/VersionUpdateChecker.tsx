@@ -16,7 +16,6 @@ export const VersionUpdateChecker: React.FC<Props> = ({
 }) => {
   const [status, setStatus] = useState<'checking' | 'up-to-date' | 'new-version'>('up-to-date');
   const [lastChecked, setLastChecked] = useState<string>('Vừa xong');
-  const [isSimulatingUpdate, setIsSimulatingUpdate] = useState<boolean>(false);
   const [showChangelogModal, setShowChangelogModal] = useState<boolean>(false);
   const checkTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -34,18 +33,13 @@ export const VersionUpdateChecker: React.FC<Props> = ({
     ]
   };
 
-  const checkForUpdates = (forceNewVersion?: boolean) => {
+  const checkForUpdates = () => {
     setStatus('checking');
     setTimeout(() => {
       const now = new Date();
       const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
       setLastChecked(timeStr);
-
-      if (forceNewVersion !== undefined ? forceNewVersion : isSimulatingUpdate) {
-        setStatus('new-version');
-      } else {
-        setStatus('up-to-date');
-      }
+      setStatus('up-to-date');
     }, 900);
   };
 
@@ -61,13 +55,7 @@ export const VersionUpdateChecker: React.FC<Props> = ({
     return () => {
       if (checkTimerRef.current) clearInterval(checkTimerRef.current);
     };
-  }, [isSimulatingUpdate]);
-
-  const handleToggleSimulateUpdate = () => {
-    const nextState = !isSimulatingUpdate;
-    setIsSimulatingUpdate(nextState);
-    checkForUpdates(nextState);
-  };
+  }, []);
 
   return (
     <>
@@ -123,29 +111,16 @@ export const VersionUpdateChecker: React.FC<Props> = ({
           </div>
         )}
 
-        {/* Nút kiểm tra thủ công & Nút thử nghiệm giả lập */}
+        {/* Nút kiểm tra thủ công */}
         <div className="flex items-center gap-1.5 ml-1 pl-1 border-l border-slate-800">
           <button
             id="btn-manual-check-update"
             onClick={() => checkForUpdates()}
             disabled={status === 'checking'}
-            className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer disabled:opacity-50"
+            className="p-1 rounded text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer disabled:opacity-50 flex items-center gap-1"
             title="Kiểm tra cập nhật ngay bây giờ"
           >
             <RefreshCw className={`w-3 h-3 ${status === 'checking' ? 'animate-spin text-blue-400' : ''}`} />
-          </button>
-
-          <button
-            id="btn-simulate-update-toggle"
-            onClick={handleToggleSimulateUpdate}
-            className={`text-[10px] px-2 py-0.5 rounded transition-all cursor-pointer font-mono ${
-              isSimulatingUpdate 
-                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40' 
-                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
-            }`}
-            title="Nhấp để bật/tắt chế độ thử nghiệm thông báo bản cập nhật mới trên server"
-          >
-            {isSimulatingUpdate ? 'Test: Đang bật New Version' : 'Test server update'}
           </button>
         </div>
       </div>
