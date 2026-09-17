@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { 
   Download, FileCode, Terminal, Package, Check, Copy, 
   ExternalLink, ArrowRight, ShieldCheck, Zap, Laptop, FileText,
-  Folder, HardDrive, Puzzle, Sparkles, Trash2, Apple, Monitor, Layers, AlertTriangle
+  Folder, HardDrive, Puzzle, Sparkles, Trash2, Apple, Monitor, Layers, AlertTriangle,
+  CheckCircle2, Star, HelpCircle
 } from 'lucide-react';
 import JSZip from 'jszip';
 import { 
@@ -33,7 +34,7 @@ interface Props {
 
 export const DownloadCenter: React.FC<Props> = ({ onDownloadScript, onDownloadZip }) => {
   const [copiedCmd, setCopiedCmd] = useState<string | null>(null);
-  const [selectedOS, setSelectedOS] = useState<TargetOS>('all');
+  const [selectedOS, setSelectedOS] = useState<TargetOS>('windows');
 
   // Loading Overlay state
   const [loadingState, setLoadingOverlay] = useState<{
@@ -281,73 +282,261 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
         </div>
       )}
 
-      {/* Banner tải trọn gói nổi bật */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-blue-950/70 border border-blue-500/40 rounded-2xl p-6 sm:p-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-xl relative overflow-hidden">
-        <div className="flex flex-col gap-2 relative z-10 max-w-2xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-semibold w-fit">
-            <Package className="w-3.5 h-3.5" />
-            Bản Desktop Pro v6.0 (Tích hợp Auto Scheduler & Chạy Ngầm System Tray)
-          </div>
-          <div className="flex items-center gap-2.5">
+      {/* 1. KHUNG CHÀO ĐÓN & HƯỚNG DẪN 3 BƯỚC CHO NGƯỜI MỚI (BEGINNER-FIRST HERO) */}
+      <div className="bg-gradient-to-br from-slate-900 via-slate-900 to-blue-950/80 border-2 border-blue-500/40 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 relative z-10">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-bold">
+              <Star className="w-3.5 h-3.5 text-emerald-400" />
+              <span>DÀNH CHO NGƯỜI MỚI BẮT ĐẦU • DỄ HIỂU NHẤT</span>
+            </div>
+            
             <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Tải Trọn Gói Chrome Backup Desktop (.EXE / Shell)
+              Bản Cài Đặt Cho Máy Tính (Desktop)
             </h2>
-            <QuickGuideButton topicId="download_package" />
+            
+            <p className="text-sm text-slate-300 leading-relaxed">
+              Đây là giải pháp <strong>sao lưu trọn vẹn 100%</strong>: Giữ lại toàn bộ <strong>Mật khẩu đã lưu</strong>, <strong>Lịch sử web</strong>, <strong>Dấu trang (Bookmarks)</strong>, và <strong>Các tài khoản đang đăng nhập</strong>. Khi chuyển sang máy tính mới, chỉ cần 1 cú nhấp chuột là khôi phục như cũ!
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3 pt-1 text-xs text-slate-300 font-medium">
+              <span className="flex items-center gap-1.5 text-emerald-400 bg-emerald-950/40 border border-emerald-500/30 px-2.5 py-1 rounded-lg">
+                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                Không làm mất mật khẩu
+              </span>
+              <span className="flex items-center gap-1.5 text-blue-400 bg-blue-950/40 border border-blue-500/30 px-2.5 py-1 rounded-lg">
+                <CheckCircle2 className="w-4 h-4 text-blue-400" />
+                Không cần biết lập trình
+              </span>
+              <span className="flex items-center gap-1.5 text-cyan-400 bg-cyan-950/40 border border-cyan-500/30 px-2.5 py-1 rounded-lg">
+                <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+                Mở app êm ru, không màn hình đen
+              </span>
+            </div>
           </div>
-          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-            Ứng dụng độc lập lưu trữ 100% dữ liệu vật lý của Google Chrome. Trang bị <strong>lập lịch sao lưu tự động (Auto Scheduler)</strong>, <strong>chạy ngầm trong khay hệ thống (System Tray)</strong>, <strong>tùy chọn sao lưu từng Profile riêng lẻ</strong>, <strong>tự động ghi nhớ vị trí</strong> và <strong>thanh tiến trình %</strong>.
-          </p>
-          <div className="flex flex-wrap items-center gap-3 text-xs text-slate-400 pt-1">
-            <span className="text-emerald-400 font-semibold flex items-center gap-1">
-              ✓ Lập lịch tự động & Chạy ngầm (Tray)
-            </span>
-            <span className="text-cyan-400 font-semibold flex items-center gap-1">
-              ✓ Chọn lọc từng Profile Chrome
-            </span>
-            <span className="text-blue-400 font-semibold flex items-center gap-1">
-              ✓ Nhớ vị trí & Thanh % tiến trình
-            </span>
-            <span className="text-purple-400 font-semibold flex items-center gap-1">
-              ✓ 1-Click Tự động đóng & mở lại Chrome
+
+          {/* Nút Tải To Nổi Bật Dành Cho Người Mới */}
+          <div className="flex flex-col gap-2.5 w-full lg:w-auto shrink-0">
+            <button
+              id="btn-download-full-bundle"
+              onClick={() => createAndDownloadZip(selectedOS)}
+              disabled={loadingState.isOpen}
+              className="px-8 py-5 rounded-2xl bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-500 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.99] text-white font-extrabold text-base sm:text-lg flex items-center justify-center gap-3 shadow-xl shadow-blue-950/70 border border-blue-400/40 transition-all cursor-pointer"
+            >
+              <Download className="w-6 h-6 animate-bounce" />
+              <span>
+                {selectedOS === 'windows' ? 'TẢI BẢN CHO WINDOWS (.ZIP)' : 
+                 selectedOS === 'macos' ? 'TẢI BẢN CHO MACOS (.ZIP)' :
+                 selectedOS === 'linux' ? 'TẢI BẢN CHO LINUX (.ZIP)' : 'TẢI TRỌN GÓI TẤT CẢ HĐH (.ZIP)'}
+              </span>
+            </button>
+            <span className="text-center text-xs text-slate-400">
+              Dung lượng siêu nhẹ ~35 KB • Tải về chỉ mất 1 giây
             </span>
           </div>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 relative z-10 w-full lg:w-auto">
-          <button
-            id="btn-download-full-bundle"
-            onClick={() => createAndDownloadZip('all')}
-            disabled={loadingState.isOpen}
-            className="px-6 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 active:scale-[0.99] text-white font-bold text-sm sm:text-base flex items-center justify-center gap-3 shadow-lg shadow-blue-950 transition-all cursor-pointer whitespace-nowrap border border-blue-400/30"
-          >
-            <Download className="w-5 h-5" />
-            <span>Tải Trọn Gói Tất Cả HĐH (.ZIP Universal)</span>
-          </button>
+        {/* 3 BƯỚC CỰC DỄ HIỂU NGAY TRONG HERO */}
+        <div className="mt-8 pt-6 border-t border-slate-800/80">
+          <div className="flex items-center gap-2 mb-4">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+            <h3 className="text-sm font-bold text-white uppercase tracking-wider">
+              3 Bước Sử Dụng Cực Dễ (Xem Là Làm Được Ngay)
+            </h3>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {/* Bước 1 */}
+            <div className="bg-slate-950/80 border border-blue-500/30 rounded-2xl p-4 flex flex-col gap-2 relative">
+              <div className="flex items-center justify-between">
+                <span className="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-300 font-extrabold text-sm flex items-center justify-center border border-blue-500/40">
+                  1
+                </span>
+                <span className="text-[11px] font-semibold text-blue-400">Bước 1</span>
+              </div>
+              <h4 className="font-bold text-white text-sm">Tải gói về máy</h4>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Nhấn nút màu xanh <strong>"TẢI BẢN CHO WINDOWS (.ZIP)"</strong> ở trên để tải file nén về thư mục <em>Downloads</em> của bạn.
+              </p>
+            </div>
+
+            {/* Bước 2 */}
+            <div className="bg-slate-950/80 border border-indigo-500/30 rounded-2xl p-4 flex flex-col gap-2 relative">
+              <div className="flex items-center justify-between">
+                <span className="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-300 font-extrabold text-sm flex items-center justify-center border border-indigo-500/40">
+                  2
+                </span>
+                <span className="text-[11px] font-semibold text-indigo-400">Bước 2</span>
+              </div>
+              <h4 className="font-bold text-white text-sm">Giải nén thư mục</h4>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Nhấp chuột phải vào file vừa tải về, chọn <strong>"Extract All..."</strong> (hoặc "Giải nén tại đây") để mở các tập tin ra.
+              </p>
+            </div>
+
+            {/* Bước 3 */}
+            <div className="bg-slate-950/80 border border-emerald-500/40 rounded-2xl p-4 flex flex-col gap-2 relative shadow-lg shadow-emerald-950/30">
+              <div className="flex items-center justify-between">
+                <span className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-300 font-extrabold text-sm flex items-center justify-center border border-emerald-500/40">
+                  3
+                </span>
+                <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
+                  Mở App Ngay
+                </span>
+              </div>
+              <h4 className="font-bold text-emerald-300 text-sm">Nhấp đúp "CHAY_APP.vbs"</h4>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                Trong thư mục vừa giải nén, nhấp đúp vào file <strong className="text-emerald-400 font-mono">CHAY_APP.vbs</strong>. Ứng dụng sẽ xuất hiện ngay lập tức, êm ru và không có lỗi!
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* BỘ CHỌN HỆ ĐIỀU HÀNH (OS SELECTOR) */}
+      {/* 2. BẢNG CHỈ DẪN: "NÊN BẤM VÀO FILE NÀO ĐỂ CHẠY?" */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div>
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-cyan-400" />
+              Bạn Đang Tự Hỏi: "Trong Thư Mục Có Nhiều File, Tôi Nên Bấm File Nào?"
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Dưới đây là lời khuyên rõ ràng nhất dành cho bạn tùy theo nhu cầu:
+            </p>
+          </div>
+          <span className="text-xs text-emerald-400 font-semibold bg-emerald-950/60 px-3 py-1 rounded-full border border-emerald-500/30 w-fit">
+            Mẹo: Chỉ cần chọn 1 trong các cách sau
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* Lựa chọn 1: CHAY_APP.vbs (Khuyên dùng số 1) */}
+          <div className="bg-slate-950 border-2 border-emerald-500/60 rounded-2xl p-5 flex flex-col justify-between shadow-lg shadow-emerald-950/40 relative">
+            <span className="absolute -top-3 left-4 bg-emerald-500 text-slate-950 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wide">
+              ⭐ Khuyên dùng nhất
+            </span>
+            <div>
+              <div className="flex items-center gap-2 mt-1 mb-2">
+                <Zap className="w-5 h-5 text-emerald-400" />
+                <h4 className="font-extrabold text-white text-base">CHAY_APP.vbs</h4>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                <strong>Chạy app êm ru:</strong> Mở ngay giao diện sao lưu Chrome mà <strong>hoàn toàn không hiện cửa sổ đen cmd</strong>, không bao giờ bị phần mềm diệt virus làm phiền!
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-slate-800/80">
+              <span className="text-[11px] text-emerald-400 font-semibold block mb-2">
+                ✓ Phù hợp với tất cả mọi người
+              </span>
+              <button
+                onClick={() => downloadFile("CHAY_APP.vbs", RUN_SILENT_VBS, "text/plain")}
+                className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Tải riêng file này
+              </button>
+            </div>
+          </div>
+
+          {/* Lựa chọn 2: TAO_SHORTCUT_DESKTOP.bat */}
+          <div className="bg-slate-950 border border-blue-500/40 rounded-2xl p-5 flex flex-col justify-between hover:border-blue-400 transition-colors">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Monitor className="w-5 h-5 text-blue-400" />
+                <h4 className="font-extrabold text-white text-base">TAO_SHORTCUT_DESKTOP.bat</h4>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                <strong>Tạo icon ngoài màn hình:</strong> Nhấp đúp vào file này, nó sẽ tự tạo một biểu tượng <code className="text-blue-300 font-mono">Chrome Full Backup Tool</code> ngay trên màn hình Desktop của bạn.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-slate-800/80">
+              <span className="text-[11px] text-blue-400 font-semibold block mb-2">
+                ✓ Tiện lợi như ứng dụng cài sẵn
+              </span>
+              <button
+                onClick={() => downloadFile("TAO_SHORTCUT_DESKTOP.bat", TAO_SHORTCUT_DESKTOP_BAT, "application/x-bat")}
+                className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-blue-300 border border-slate-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Tải riêng file này
+              </button>
+            </div>
+          </div>
+
+          {/* Lựa chọn 3: CHAY_NGAY_POWERSHELL.bat */}
+          <div className="bg-slate-950 border border-purple-500/40 rounded-2xl p-5 flex flex-col justify-between hover:border-purple-400 transition-colors">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Terminal className="w-5 h-5 text-purple-400" />
+                <h4 className="font-extrabold text-white text-base">CHAY_NGAY_POWERSHELL.bat</h4>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                <strong>Không cần cài Python:</strong> Nếu máy tính của bạn hoàn toàn chưa có Python, file này sẽ chạy bằng công cụ PowerShell có sẵn của Windows để sao lưu ngay lập tức.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-slate-800/80">
+              <span className="text-[11px] text-purple-400 font-semibold block mb-2">
+                ✓ Dành cho máy chưa cài gì
+              </span>
+              <button
+                onClick={() => downloadFile("CHAY_NGAY_POWERSHELL.bat", RUN_POWERSHELL_BAT, "application/x-bat")}
+                className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-purple-300 border border-slate-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Tải riêng file này
+              </button>
+            </div>
+          </div>
+
+          {/* Lựa chọn 4: build_exe.bat */}
+          <div className="bg-slate-950 border border-cyan-500/40 rounded-2xl p-5 flex flex-col justify-between hover:border-cyan-400 transition-colors">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <Package className="w-5 h-5 text-cyan-400" />
+                <h4 className="font-extrabold text-white text-base">build_exe.bat</h4>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                <strong>Tự tạo file .EXE:</strong> Nhấp đúp vào đây để tự động đóng gói toàn bộ ứng dụng thành 1 file <code className="text-cyan-300 font-mono">ChromeBackupRestore.exe</code> độc lập lưu vào USB.
+              </p>
+            </div>
+            <div className="mt-4 pt-3 border-t border-slate-800/80">
+              <span className="text-[11px] text-cyan-400 font-semibold block mb-2">
+                ✓ Dành cho ai muốn file .EXE
+              </span>
+              <button
+                onClick={() => downloadFile("build_exe.bat", BUILD_BAT_CODE, "application/x-bat")}
+                className="w-full py-2 bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Tải riêng file này
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 3. BỘ CHỌN HỆ ĐIỀU HÀNH (WINDOWS / MACBOOK / LINUX) */}
       <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">
             <Laptop className="w-5 h-5 text-cyan-400" />
-            <h3 className="text-sm sm:text-base font-bold text-white">
-              Chọn Gói Tải Xuống Tối Ưu Cho Hệ Điều Hành Của Bạn
+            <h3 className="text-base font-bold text-white">
+              Bạn Đang Dùng Hệ Điều Hành Nào?
             </h3>
-            <QuickGuideButton topicId="multi_os" label="Đa HĐH (?)" />
           </div>
           <span className="text-xs text-slate-400">
-            Đầy đủ script tự động chạy & cấu trúc đường dẫn chuẩn cho từng OS
+            Chọn để xem hướng dẫn riêng cho hệ điều hành của bạn
           </span>
         </div>
 
         {/* Tab switchers */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           {[
-            { id: 'all', label: 'Tất Cả HĐH (Universal)', icon: Layers, color: 'text-cyan-400' },
-            { id: 'windows', label: 'Windows (EXE / BAT)', icon: Monitor, color: 'text-blue-400' },
-            { id: 'macos', label: 'macOS (Finder .command)', icon: Apple, color: 'text-amber-400' },
-            { id: 'linux', label: 'Linux (Ubuntu / Fedora)', icon: Terminal, color: 'text-emerald-400' }
+            { id: 'windows', label: 'Windows (PC / Laptop)', icon: Monitor, color: 'text-blue-400', badge: 'Phổ biến nhất' },
+            { id: 'macos', label: 'macOS (MacBook M1/M2/Intel)', icon: Apple, color: 'text-amber-400', badge: 'Dễ dùng' },
+            { id: 'linux', label: 'Linux (Ubuntu / Fedora)', icon: Terminal, color: 'text-emerald-400', badge: 'Native' },
+            { id: 'all', label: 'Tất Cả HĐH (Universal)', icon: Layers, color: 'text-cyan-400', badge: 'Đầy đủ' }
           ].map((tab) => {
             const Icon = tab.icon;
             const isSelected = selectedOS === tab.id;
@@ -355,394 +544,80 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
               <button
                 key={tab.id}
                 onClick={() => setSelectedOS(tab.id as TargetOS)}
-                className={`p-3 rounded-xl border flex items-center gap-2.5 transition-all cursor-pointer text-xs font-semibold ${
+                className={`p-3.5 rounded-xl border flex flex-col gap-1 transition-all cursor-pointer text-left ${
                   isSelected 
                     ? 'bg-slate-800 border-blue-500 text-white shadow-md' 
                     : 'bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${tab.color}`} />
-                <span className="truncate">{tab.label}</span>
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <Icon className={`w-4 h-4 ${tab.color}`} />
+                    <span className="text-xs font-bold">{tab.label}</span>
+                  </div>
+                  {isSelected && <span className="w-2 h-2 rounded-full bg-blue-400" />}
+                </div>
+                <span className="text-[10px] text-slate-500">{tab.badge}</span>
               </button>
             );
           })}
         </div>
 
         {/* Khối hiển thị chi tiết theo từng HĐH đã chọn */}
-        <div className="bg-slate-950/70 border border-slate-800/80 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
+        <div className="bg-slate-950/80 border border-slate-800 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
             <div className="flex items-center gap-2 font-bold text-white text-sm">
-              <span>
-                {selectedOS === 'all' && '📦 Gói Universal: Đầy đủ file cho cả Windows, macOS & Linux'}
-                {selectedOS === 'windows' && '🪟 Gói Windows: Sẵn sàng CHAY_NGAY_POWERSHELL.bat, build_exe.bat & .ps1'}
-                {selectedOS === 'macos' && '🍎 Gói macOS: Tương thích MacBook M1/M2/M3 & Intel, sẵn CHAY_NGAY_MACOS.command'}
-                {selectedOS === 'linux' && '🐧 Gói Linux: Tương thích Ubuntu, Debian, Fedora, Arch qua bash native'}
-              </span>
+              {selectedOS === 'windows' && '🪟 Dành cho Windows: Hỗ trợ Windows 10, 11 (Tự tìm đường dẫn Chrome trong máy)'}
+              {selectedOS === 'macos' && '🍎 Dành cho macOS: Tương thích MacBook chip Apple Silicon M1/M2/M3 và chip Intel'}
+              {selectedOS === 'linux' && '🐧 Dành cho Linux: Tương thích Ubuntu, Debian, Fedora, Arch Linux'}
+              {selectedOS === 'all' && '📦 Gói Universal: Đầy đủ file cho cả Windows, macOS và Linux trong 1 file ZIP'}
             </div>
-            <p className="text-xs text-slate-400 mt-1">
-              {selectedOS === 'all' && 'Chứa trọn bộ mã nguồn Python GUI đa nền tảng, tập lệnh tự nhận diện đường dẫn hệ thống.'}
-              {selectedOS === 'windows' && 'Đường dẫn chuẩn: %LOCALAPPDATA%\\Google\\Chrome\\User Data. Hỗ trợ tạo file ChromeBackupRestore.exe.'}
-              {selectedOS === 'macos' && 'Đường dẫn chuẩn: ~/Library/Application Support/Google/Chrome. Chạy trực tiếp qua double-click Finder.'}
-              {selectedOS === 'linux' && 'Đường dẫn chuẩn: ~/.config/google-chrome. Hỗ trợ lệnh chmod +x và khởi chạy terminal nhanh.'}
+            <p className="text-xs text-slate-400">
+              {selectedOS === 'windows' && 'Sau khi tải về, chỉ cần giải nén và mở file CHAY_APP.vbs để sử dụng ngay.'}
+              {selectedOS === 'macos' && 'Sau khi tải về, giải nén và nhấp đúp file CHAY_NGAY_MACOS.command để mở.'}
+              {selectedOS === 'linux' && 'Sau khi tải về, mở Terminal và gõ: chmod +x CHAY_NGAY_LINUX.sh && ./CHAY_NGAY_LINUX.sh'}
+              {selectedOS === 'all' && 'Bao gồm toàn bộ file mã nguồn Python, script batch Windows, command macOS và shell Linux.'}
             </p>
           </div>
 
           <button
             onClick={() => createAndDownloadZip(selectedOS)}
             disabled={loadingState.isOpen}
-            className="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shrink-0 transition-colors shadow-md shadow-emerald-950 cursor-pointer"
+            className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-2 shrink-0 transition-colors shadow-md shadow-emerald-950 cursor-pointer whitespace-nowrap"
           >
             <Download className="w-4 h-4" />
-            <span>
-              {selectedOS === 'all' && 'Tải Gói Universal (.ZIP)'}
-              {selectedOS === 'windows' && 'Tải Gói Windows (.ZIP)'}
-              {selectedOS === 'macos' && 'Tải Gói macOS (.ZIP)'}
-              {selectedOS === 'linux' && 'Tải Gói Linux (.ZIP)'}
-            </span>
+            <span>Tải Gói Cho {selectedOS === 'windows' ? 'Windows' : selectedOS === 'macos' ? 'macOS' : selectedOS === 'linux' ? 'Linux' : 'Tất Cả'} (.ZIP)</span>
           </button>
         </div>
       </div>
 
-      {/* Danh sách các tập tin có thể tải lẻ */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-white flex items-center gap-2">
-            <FileCode className="w-5 h-5 text-blue-400" />
-            Các Tập Tin Trong Bộ Script ({selectedOS.toUpperCase()})
-          </h3>
-          <span className="text-xs text-slate-400">
-            Có thể tải lẻ từng file hoặc tải trọn gói ZIP ở trên
-          </span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Card 1: Python Script GUI (Đa HĐH) */}
-          {(selectedOS === 'all' || selectedOS === 'windows' || selectedOS === 'macos' || selectedOS === 'linux') && (
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
-                  <FileCode className="w-5 h-5" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-white text-sm">chrome_backup_tool.py</h4>
-                  <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.2 rounded border border-emerald-500/20">All OS</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Ứng dụng Python GUI chính hoàn chỉnh. Tự động nhận diện HĐH (Windows, macOS, Linux) để xác định đường dẫn Chrome.
-                </p>
-              </div>
-              <button
-                onClick={() => downloadFile("chrome_backup_tool.py", PYTHON_SCRIPT_CODE)}
-                className="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Tải file .py (19 KB)
-              </button>
-            </div>
-          )}
-
-          {/* Card 2: CHAY_APP.vbs (Windows - Khuyên dùng) */}
-          {(selectedOS === 'all' || selectedOS === 'windows') && (
-            <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-5 flex flex-col justify-between hover:border-emerald-500 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
-                  <Zap className="w-5 h-5" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-white text-sm">CHAY_APP.vbs</h4>
-                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold px-1.5 py-0.5 rounded border border-emerald-500/30">Khuyên dùng</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Chạy ngay ứng dụng Python GUI <strong className="text-emerald-400">hoàn toàn không hiện cửa sổ đen cmd</strong>, 100% không bị Windows Defender chặn!
-                </p>
-              </div>
-              <button
-                onClick={() => downloadFile("CHAY_APP.vbs", RUN_SILENT_VBS, "text/plain")}
-                className="mt-4 w-full py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Tải CHAY_APP.vbs (1 KB)
-              </button>
-            </div>
-          )}
-
-          {/* Card 3: build_exe.bat (Windows) */}
-          {(selectedOS === 'all' || selectedOS === 'windows') && (
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-blue-500/50 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-3">
-                  <Terminal className="w-5 h-5" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-white text-sm">build_exe.bat</h4>
-                  <span className="text-[10px] bg-blue-500/10 text-blue-400 px-1.5 py-0.2 rounded border border-blue-500/20">Windows</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Script Windows 1-Click tự động tải thư viện và biên dịch ứng dụng thành file <code className="text-blue-300">.exe</code> độc lập.
-                </p>
-              </div>
-              <button
-                onClick={() => downloadFile("build_exe.bat", BUILD_BAT_CODE, "application/x-bat")}
-                className="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-blue-400 border border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Tải build_exe.bat (2 KB)
-              </button>
-            </div>
-          )}
-
-          {/* Card 3: CHAY_NGAY_MACOS.command (macOS) */}
-          {(selectedOS === 'all' || selectedOS === 'macos') && (
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-amber-500/50 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center mb-3">
-                  <Apple className="w-5 h-5" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-white text-sm">CHAY_NGAY_MACOS.command</h4>
-                  <span className="text-[10px] bg-amber-500/10 text-amber-400 px-1.5 py-0.2 rounded border border-amber-500/20">macOS</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Tập lệnh khởi chạy Finder trên macOS (MacBook M1/M2/Intel). Nhấp đúp là chạy ngay với môi trường Python của Mac.
-                </p>
-              </div>
-              <button
-                onClick={() => downloadFile("CHAY_NGAY_MACOS.command", RUN_MACOS_COMMAND, "application/x-sh")}
-                className="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Tải file .command (Mac)
-              </button>
-            </div>
-          )}
-
-          {/* Card 4: CHAY_NGAY_LINUX.sh (Linux) */}
-          {(selectedOS === 'all' || selectedOS === 'linux') && (
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
-                  <Terminal className="w-5 h-5" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-white text-sm">CHAY_NGAY_LINUX.sh</h4>
-                  <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-1.5 py-0.2 rounded border border-emerald-500/20">Linux</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Tập lệnh shell chuẩn POSIX tương thích Ubuntu, Debian, Fedora, Arch. Tự động kiểm tra Python3 và khởi động GUI.
-                </p>
-              </div>
-              <button
-                onClick={() => downloadFile("CHAY_NGAY_LINUX.sh", RUN_LINUX_SH, "application/x-sh")}
-                className="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Tải file .sh (Linux)
-              </button>
-            </div>
-          )}
-
-          {/* Card 5: backup_chrome.ps1 */}
-          {(selectedOS === 'all' || selectedOS === 'windows') && (
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-purple-500/50 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-3">
-                  <Terminal className="w-5 h-5" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-white text-sm">backup_chrome.ps1</h4>
-                  <span className="text-[10px] bg-purple-500/10 text-purple-400 px-1.5 py-0.2 rounded border border-purple-500/20">PowerShell</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Tập lệnh PowerShell gốc của Windows, tự động nhớ vị trí và chạy trực tiếp mà không cần cài đặt Python.
-                </p>
-              </div>
-              <button
-                onClick={() => downloadFile("backup_chrome.ps1", POWERSHELL_SCRIPT, "text/plain")}
-                className="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-purple-400 border border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Tải file .ps1 (3 KB)
-              </button>
-            </div>
-          )}
-
-          {/* Card 6: backup_chrome_unix.sh (Unix) */}
-          {(selectedOS === 'all' || selectedOS === 'macos' || selectedOS === 'linux') && (
-            <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-cyan-500/50 transition-colors">
-              <div>
-                <div className="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center mb-3">
-                  <Terminal className="w-5 h-5" />
-                </div>
-                <div className="flex items-center justify-between">
-                  <h4 className="font-bold text-white text-sm">backup_chrome_unix.sh</h4>
-                  <span className="text-[10px] bg-cyan-500/10 text-cyan-400 px-1.5 py-0.2 rounded border border-cyan-500/20">Mac/Linux</span>
-                </div>
-                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                  Shell script sao lưu khôi phục thuần POSIX cho macOS và Linux, tự đóng Chrome và nén zip không cần Python.
-                </p>
-              </div>
-              <button
-                onClick={() => downloadFile("backup_chrome_unix.sh", BACKUP_CHROME_UNIX_SH, "application/x-sh")}
-                className="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-              >
-                <Download className="w-3.5 h-3.5" />
-                Tải file .sh (Unix)
-              </button>
-            </div>
-          )}
-
-          {/* Card 7: UNINSTALL script */}
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-red-500/50 transition-colors">
-            <div>
-              <div className="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 flex items-center justify-center mb-3">
-                <Trash2 className="w-5 h-5" />
-              </div>
-              <div className="flex items-center justify-between">
-                <h4 className="font-bold text-white text-sm">UNINSTALL scripts</h4>
-                <span className="text-[10px] bg-red-500/10 text-red-400 px-1.5 py-0.2 rounded border border-red-500/20">Cleanup</span>
-              </div>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                Tập lệnh gỡ cài đặt sạch sẽ 100%: dọn sạch config.json, cache và dist mà không làm ảnh hưởng đến bản backup.
-              </p>
-            </div>
-            <button
-              onClick={() => downloadFile(selectedOS === 'macos' ? "UNINSTALL_MACOS.command" : selectedOS === 'linux' ? "UNINSTALL_LINUX.sh" : "UNINSTALL.bat", selectedOS === 'macos' || selectedOS === 'linux' ? UNINSTALL_UNIX_SH : UNINSTALL_BAT_CODE)}
-              className="mt-4 w-full py-2 bg-slate-800 hover:bg-slate-700 text-red-400 border border-slate-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <Download className="w-3.5 h-3.5" />
-              Tải Script Gỡ Cài Đặt
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Hướng dẫn 3 bước đóng gói thành file .exe */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 sm:p-7 flex flex-col gap-6">
-        <div>
-          <div className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-blue-400" />
-            <h3 className="text-lg font-bold text-white">
-              Hướng Dẫn Tạo File .EXE Độc Lập Trong 3 Bước (Chạy Không Cần Cài Python)
-            </h3>
-            <QuickGuideButton topicId="build_exe" />
-          </div>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
-            Sau khi đóng gói, bạn có một file <code className="text-white font-mono bg-slate-800 px-1.5 py-0.5 rounded">ChromeBackupRestore.exe</code> duy nhất để copy sang máy tính khác hoặc lưu vào USB.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Bước 1 */}
-          <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-5 flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <span className="w-7 h-7 rounded-full bg-emerald-500/20 text-emerald-400 font-bold text-xs flex items-center justify-center border border-emerald-500/30">
-                1
-              </span>
-              <span className="text-[11px] text-slate-500 font-mono">Thời gian: 10 giây</span>
-            </div>
-            <h4 className="font-semibold text-white text-sm">Tải gói về máy tính</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Nhấn nút <strong>"Tải Trọn Gói Bản Desktop (.ZIP)"</strong> ở trên và giải nén ra một thư mục bất kỳ trên máy tính của bạn (Ví dụ: <code className="text-slate-300">C:\ChromeBackupTool</code>).
-            </p>
-          </div>
-
-          {/* Bước 2 */}
-          <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-5 flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <span className="w-7 h-7 rounded-full bg-blue-500/20 text-blue-400 font-bold text-xs flex items-center justify-center border border-blue-500/30">
-                2
-              </span>
-              <span className="text-[11px] text-slate-500 font-mono">Thời gian: 30 giây</span>
-            </div>
-            <h4 className="font-semibold text-white text-sm">Chạy build_exe.bat</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Nhấp đúp chuột vào file <strong>build_exe.bat</strong>. Cửa sổ Command Prompt sẽ tự động cài PyInstaller và biên dịch ứng dụng thành file <code className="text-blue-300 font-mono">.exe</code>.
-            </p>
-          </div>
-
-          {/* Bước 3 */}
-          <div className="bg-slate-950/60 border border-slate-800 rounded-xl p-5 flex flex-col gap-3">
-            <div className="flex items-center justify-between">
-              <span className="w-7 h-7 rounded-full bg-purple-500/20 text-purple-400 font-bold text-xs flex items-center justify-center border border-purple-500/30">
-                3
-              </span>
-              <span className="text-[11px] text-slate-500 font-mono">Hoàn tất</span>
-            </div>
-            <h4 className="font-semibold text-white text-sm">Sử dụng file .EXE</h4>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Cửa sổ thư mục <code className="text-purple-300 font-mono">dist\ChromeBackupRestore</code> sẽ tự động bật lên. File <code className="text-white font-mono font-bold">ChromeBackupRestore.exe</code> đã sẵn sàng hoạt động!
-            </p>
-          </div>
-        </div>
-
-        {/* Lệnh chạy thủ công nếu người dùng muốn gõ command */}
-        <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-col gap-2">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span>Hoặc lệnh thủ công qua terminal (Windows / Mac / Linux):</span>
-            <button
-              onClick={() => copyToClipboard('pip install pyinstaller psutil pystray Pillow && pyinstaller --onefile --windowed --name "ChromeBackupRestore" chrome_backup_tool.py', 'manual-cmd')}
-              className="text-slate-300 hover:text-white flex items-center gap-1 text-[11px] bg-slate-800 px-2 py-0.5 rounded transition-colors cursor-pointer"
-            >
-              {copiedCmd === 'manual-cmd' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-              {copiedCmd === 'manual-cmd' ? 'Đã copy' : 'Sao chép lệnh'}
-            </button>
-          </div>
-          <code className="text-xs font-mono text-emerald-400 bg-black/40 p-2.5 rounded border border-slate-800 overflow-x-auto">
-            pip install pyinstaller psutil pystray Pillow && pyinstaller --onefile --windowed --name "ChromeBackupRestore" chrome_backup_tool.py
-          </code>
-        </div>
-      </div>
-
-      {/* Hướng dẫn Gỡ Cài Đặt (Uninstall) 100% Sạch Sẽ với Nút Kích Hoạt Interactive */}
-      <div className="bg-slate-900/60 border border-red-500/30 rounded-2xl p-6 flex flex-col gap-4">
+      {/* 4. KHU VỰC GỠ CÀI ĐẶT (UNINSTALL) SẠCH SẼ 100% - AN TÂM CHO NGƯỜI DÙNG */}
+      <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 flex flex-col gap-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2.5 text-red-400 font-semibold text-base">
+          <div className="flex items-center gap-2.5 text-slate-200 font-semibold text-base">
             <div className="p-2 rounded-lg bg-red-500/10 border border-red-500/20">
               <Trash2 className="w-5 h-5 text-red-400" />
             </div>
-            <span>Hướng Dẫn Gỡ Cài Đặt (Uninstall) 1-Click Sạch Sẽ 100%</span>
-            <QuickGuideButton topicId="uninstall_guide" />
+            <div>
+              <span className="block font-bold">Bạn Muốn Xóa Ứng Dụng Khỏi Máy Tính? (Gỡ Cài Đặt)</span>
+              <span className="text-xs text-slate-400 font-normal">Hoàn toàn không để lại file rác trong hệ thống máy tính</span>
+            </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={handleExecuteUninstall}
-              disabled={loadingState.isOpen}
-              className="px-4 py-2 rounded-lg bg-red-600/90 hover:bg-red-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-red-950 transition-colors cursor-pointer border border-red-500/40"
-            >
-              <Trash2 className="w-4 h-4" />
-              <span>Gỡ Cài Đặt Ngay (1-Click)</span>
-            </button>
-          </div>
+          
+          <button
+            onClick={handleExecuteUninstall}
+            disabled={loadingState.isOpen}
+            className="px-4 py-2.5 rounded-xl bg-red-600/90 hover:bg-red-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-red-950 transition-colors cursor-pointer border border-red-500/40 shrink-0"
+          >
+            <Trash2 className="w-4 h-4" />
+            <span>Gỡ Cài Đặt Ngay (1-Click)</span>
+          </button>
         </div>
 
-        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-          Ứng dụng được thiết kế hoàn toàn theo mô hình <strong>Portable (không chôn sâu file rác vào Windows Registry hay System32)</strong>. Khi bạn không còn nhu cầu sử dụng, bạn có thể gỡ cài đặt sạch sẽ 100% bất kỳ lúc nào bằng 1 trong 2 cách:
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl flex flex-col gap-2">
-            <div className="text-xs font-bold text-red-300 flex items-center gap-1.5">
-              <span>Cách 1: Bấm nút Gỡ Cài Đặt Ngay ở trên hoặc trong app desktop</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Bấm nút màu đỏ <strong className="text-red-300 font-mono">🗑️ Gỡ Cài Đặt Ngay</strong>. Hệ thống sẽ tự động dọn sạch file cấu hình <code className="text-slate-300">config.json</code> và cache tạm.
-            </p>
-          </div>
-
-          <div className="bg-slate-950/70 border border-slate-800 p-4 rounded-xl flex flex-col gap-2">
-            <div className="text-xs font-bold text-amber-300 flex items-center gap-1.5">
-              <span>Cách 2: Chạy file UNINSTALL đi kèm trong thư mục</span>
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              Chạy <strong className="text-amber-300 font-mono">UNINSTALL.bat</strong> (trên Windows) hoặc <strong className="text-amber-300 font-mono">UNINSTALL_MACOS.command / UNINSTALL_LINUX.sh</strong> (trên Mac/Linux) để dọn dẹp sạch toàn bộ thư mục <code className="text-slate-300">dist</code>, <code className="text-slate-300">build</code> và cache.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-950/30 border border-emerald-900/40 p-3 rounded-lg">
-          <Check className="w-4 h-4 shrink-0 text-emerald-400" />
-          <span>
-            <strong>Bảo vệ dữ liệu:</strong> Quá trình gỡ cài đặt chỉ xóa sạch app và cấu hình tạm. <strong>Tất cả các bản sao lưu Chrome (.zip) của bạn trong thư mục sao lưu VẪN ĐƯỢC BẢO TOÀN NGUYÊN VẸN 100%.</strong>
+        <div className="flex items-start gap-2.5 text-xs text-emerald-400 bg-emerald-950/30 border border-emerald-900/40 p-3.5 rounded-xl">
+          <Check className="w-4 h-4 shrink-0 text-emerald-400 mt-0.5" />
+          <span className="leading-relaxed">
+            <strong>Bảo đảm an toàn dữ liệu 100%:</strong> Gỡ cài đặt chỉ xóa phần mềm tạm thời. <strong>Tất cả các tệp sao lưu dữ liệu (.zip) của bạn trước đó VẪN NGUYÊN VẸN 100%</strong> trong thư mục sao lưu, không bao giờ bị xóa mất!
           </span>
         </div>
       </div>

@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 /* ==========================================================================
-   DYNAMIC THEME STYLES (Light Titanium, Light Nordic, Cyber OLED, Emerald, Sepia, Royal Amethyst, Custom)
+   THEME ENGINE: Light Titanium, Light Nordic, Cyber OLED, Emerald Matrix,
+   Royal Amethyst, Sunset Coffee, Dark Slate Pro & Custom Studio
    ========================================================================== */
 
 :root {
@@ -10,150 +11,451 @@
   --custom-border: #1e293b;
   --custom-text: #f8fafc;
   --custom-accent: #10b981;
-  --custom-radius: 12px;
+  --custom-radius: 14px;
 }
 
 html {
-  transition: background-color 0.25s ease, color 0.25s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* 1. CHẾ ĐỘ SÁNG (LIGHT TITANIUM & LIGHT NORDIC) */
+/* ==========================================================================
+   1. CHẾ ĐỘ SÁNG CAO CẤP (LIGHT MODE - ĐỘ TƯƠNG PHẢN CAO, ĐỌC RÕ RÀNG 100%)
+   Áp dụng cho: light, light-titanium, light-nordic, và custom mode light
+   ========================================================================== */
+
+[data-mode="light"],
 [data-theme="light"],
-[data-theme="light-titanium"] {
+[data-theme="light-titanium"],
+[data-theme="light-nordic"] {
   color-scheme: light;
   background-color: #f8fafc !important;
   color: #0f172a !important;
 }
 
+[data-mode="light"] body,
 [data-theme="light"] body,
-[data-theme="light-titanium"] body {
+[data-theme="light-titanium"] body,
+[data-theme="light-nordic"] body {
   background-color: #f8fafc !important;
   color: #0f172a !important;
 }
 
-[data-theme="light"] .bg-slate-950,
-[data-theme="light-titanium"] .bg-slate-950 {
+/* Biến thể Light Nordic Frost: Phông nền xanh băng tuyết tươi mát */
+[data-theme="light-nordic"],
+[data-theme="light-nordic"] body {
+  background-color: #f1f5f9 !important;
+}
+
+/* Nền trang chính */
+[data-mode="light"] .min-h-screen,
+[data-theme="light-titanium"] .min-h-screen,
+[data-theme="light-nordic"] .min-h-screen {
   background-color: #f8fafc !important;
   color: #0f172a !important;
 }
+[data-theme="light-nordic"] .min-h-screen {
+  background-color: #f1f5f9 !important;
+}
 
-[data-theme="light"] .bg-slate-900,
-[data-theme="light"] .bg-slate-900\/90,
-[data-theme="light"] .bg-slate-900\/80,
-[data-theme="light"] .bg-slate-900\/60,
-[data-theme="light"] .bg-slate-900\/40,
+/* ── HEADER VÀ THANH ĐIỀU HƯỚNG TRONG CHẾ ĐỘ SÁNG ── */
+[data-mode="light"] header#main-app-header,
+[data-theme="light-titanium"] header#main-app-header,
+[data-theme="light-nordic"] header#main-app-header {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border-bottom-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Nút tab đang kích hoạt trong chế độ sáng */
+[data-mode="light"] #nav-tab-app.bg-blue-500\/20,
+[data-theme="light-titanium"] #nav-tab-app.bg-blue-500\/20,
+[data-theme="light-nordic"] #nav-tab-app.bg-blue-500\/20 {
+  background-color: #eff6ff !important;
+  color: #1d4ed8 !important;
+  border-color: #93c5fd !important;
+  box-shadow: 0 1px 2px 0 rgba(59, 130, 246, 0.1) !important;
+}
+
+[data-mode="light"] #nav-tab-extension.bg-cyan-500\/20,
+[data-theme="light-titanium"] #nav-tab-extension.bg-cyan-500\/20,
+[data-theme="light-nordic"] #nav-tab-extension.bg-cyan-500\/20 {
+  background-color: #ecfeff !important;
+  color: #0e7490 !important;
+  border-color: #67e8f9 !important;
+  box-shadow: 0 1px 2px 0 rgba(6, 182, 212, 0.1) !important;
+}
+
+/* ── KHUNG HERO BANNER SANG TRỌNG & TƯƠNG PHẢN CAO ── */
+/* Hero DownloadCenter: Thay vì đen xì khó đọc, chuyển sang gradient trắng - xanh pastel tinh tế */
+[data-mode="light"] .bg-gradient-to-br.from-slate-900,
+[data-theme="light-titanium"] .bg-gradient-to-br.from-slate-900,
+[data-theme="light-nordic"] .bg-gradient-to-br.from-slate-900 {
+  background-image: linear-gradient(135deg, #ffffff 0%, #f0fdf4 40%, #eff6ff 100%) !important;
+  border-color: #bfdbfe !important;
+  box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.1), 0 8px 10px -6px rgba(59, 130, 246, 0.05) !important;
+}
+
+/* ── CÁC THẺ CARD & HỘP NỘI DUNG CHÍNH (TRẮNG TINH KHÔI, VIỀN RÕ RÀNG) ── */
+[data-mode="light"] .bg-slate-900,
+[data-mode="light"] .bg-slate-900\/95,
+[data-mode="light"] .bg-slate-900\/90,
+[data-mode="light"] .bg-slate-900\/80,
+[data-mode="light"] .bg-slate-900\/70,
+[data-mode="light"] .bg-slate-900\/60,
+[data-mode="light"] .bg-slate-900\/50,
+[data-mode="light"] .bg-slate-900\/40,
 [data-theme="light-titanium"] .bg-slate-900,
+[data-theme="light-titanium"] .bg-slate-900\/95,
 [data-theme="light-titanium"] .bg-slate-900\/90,
 [data-theme="light-titanium"] .bg-slate-900\/80,
 [data-theme="light-titanium"] .bg-slate-900\/60,
-[data-theme="light-titanium"] .bg-slate-900\/40 {
-  background-color: #ffffff !important;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
-}
-
-[data-theme="light"] .bg-slate-950\/80,
-[data-theme="light"] .bg-slate-950\/70,
-[data-theme="light"] .bg-slate-950\/50,
-[data-theme="light"] .bg-slate-950\/40,
-[data-theme="light-titanium"] .bg-slate-950\/80,
-[data-theme="light-titanium"] .bg-slate-950\/70,
-[data-theme="light-titanium"] .bg-slate-950\/50,
-[data-theme="light-titanium"] .bg-slate-950\/40 {
-  background-color: #f1f5f9 !important;
-}
-
-[data-theme="light"] .bg-slate-800,
-[data-theme="light"] .bg-slate-800\/90,
-[data-theme="light"] .bg-slate-800\/80,
-[data-theme="light"] .bg-slate-800\/50,
-[data-theme="light-titanium"] .bg-slate-800,
-[data-theme="light-titanium"] .bg-slate-800\/90,
-[data-theme="light-titanium"] .bg-slate-800\/80,
-[data-theme="light-titanium"] .bg-slate-800\/50 {
-  background-color: #e2e8f0 !important;
-}
-
-[data-theme="light"] .border-slate-800,
-[data-theme="light"] .border-slate-800\/80,
-[data-theme="light"] .border-slate-800\/60,
-[data-theme="light"] .border-slate-800\/50,
-[data-theme="light"] .border-slate-700,
-[data-theme="light"] .border-slate-700\/80,
-[data-theme="light-titanium"] .border-slate-800,
-[data-theme="light-titanium"] .border-slate-800\/80,
-[data-theme="light-titanium"] .border-slate-800\/60,
-[data-theme="light-titanium"] .border-slate-800\/50,
-[data-theme="light-titanium"] .border-slate-700,
-[data-theme="light-titanium"] .border-slate-700\/80 {
-  border-color: #e2e8f0 !important;
-}
-
-[data-theme="light"] .text-white,
-[data-theme="light"] .text-slate-100,
-[data-theme="light"] .text-slate-200,
-[data-theme="light-titanium"] .text-white,
-[data-theme="light-titanium"] .text-slate-100,
-[data-theme="light-titanium"] .text-slate-200 {
-  color: #0f172a !important;
-}
-
-[data-theme="light"] .text-slate-300,
-[data-theme="light"] .text-slate-400,
-[data-theme="light-titanium"] .text-slate-300,
-[data-theme="light-titanium"] .text-slate-400 {
-  color: #475569 !important;
-}
-
-[data-theme="light"] .text-slate-500,
-[data-theme="light-titanium"] .text-slate-500 {
-  color: #64748b !important;
-}
-
-/* 2. CHẾ ĐỘ SÁNG LIGHT NORDIC (FROST WHITE) */
-[data-theme="light-nordic"] {
-  color-scheme: light;
-  background-color: #f1f5f9 !important;
-  color: #0f172a !important;
-}
-[data-theme="light-nordic"] body {
-  background-color: #f1f5f9 !important;
-  color: #0f172a !important;
-}
-[data-theme="light-nordic"] .bg-slate-950 {
-  background-color: #f1f5f9 !important;
-  color: #0f172a !important;
-}
 [data-theme="light-nordic"] .bg-slate-900,
+[data-theme="light-nordic"] .bg-slate-900\/95,
 [data-theme="light-nordic"] .bg-slate-900\/90,
 [data-theme="light-nordic"] .bg-slate-900\/80,
 [data-theme="light-nordic"] .bg-slate-900\/60 {
   background-color: #ffffff !important;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.06), 0 1px 2px -1px rgba(0, 0, 0, 0.04) !important;
 }
-[data-theme="light-nordic"] .bg-slate-800 {
-  background-color: #e2e8f0 !important;
+
+/* Thẻ con lồng bên trong (sub-cards) */
+[data-mode="light"] .bg-slate-950,
+[data-mode="light"] .bg-slate-950\/90,
+[data-mode="light"] .bg-slate-950\/80,
+[data-mode="light"] .bg-slate-950\/70,
+[data-mode="light"] .bg-slate-950\/60,
+[data-mode="light"] .bg-slate-950\/50,
+[data-mode="light"] .bg-slate-950\/40,
+[data-theme="light-titanium"] .bg-slate-950,
+[data-theme="light-titanium"] .bg-slate-950\/90,
+[data-theme="light-titanium"] .bg-slate-950\/80,
+[data-theme="light-titanium"] .bg-slate-950\/70,
+[data-theme="light-titanium"] .bg-slate-950\/60,
+[data-theme="light-nordic"] .bg-slate-950,
+[data-theme="light-nordic"] .bg-slate-950\/90,
+[data-theme="light-nordic"] .bg-slate-950\/80,
+[data-theme="light-nordic"] .bg-slate-950\/70,
+[data-theme="light-nordic"] .bg-slate-950\/60 {
+  background-color: #ffffff !important;
+  border-color: #e2e8f0 !important;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04) !important;
 }
-[data-theme="light-nordic"] .border-slate-800,
-[data-theme="light-nordic"] .border-slate-700 {
-  border-color: #cbd5e1 !important;
-}
+
+/* ── ĐỘ TƯƠNG PHẢN VÀ MÀU CHỮ TRONG CHẾ ĐỘ SÁNG (GIẢI QUYẾT LỖI KHÓ ĐỌC) ── */
+/* Tiêu đề & chữ quan trọng: Đen xám đậm #0f172a cực kỳ sắc nét */
+[data-mode="light"] .text-white,
+[data-mode="light"] .text-slate-100,
+[data-mode="light"] .text-slate-200,
+[data-theme="light-titanium"] .text-white,
+[data-theme="light-titanium"] .text-slate-100,
+[data-theme="light-titanium"] .text-slate-200,
 [data-theme="light-nordic"] .text-white,
 [data-theme="light-nordic"] .text-slate-100,
 [data-theme="light-nordic"] .text-slate-200 {
   color: #0f172a !important;
 }
-[data-theme="light-nordic"] .text-slate-300,
+
+/* Đoạn văn & văn bản nội dung: Màu than chì đậm nét #1e293b / #334155 */
+[data-mode="light"] .text-slate-300,
+[data-theme="light-titanium"] .text-slate-300,
+[data-theme="light-nordic"] .text-slate-300 {
+  color: #1e293b !important;
+}
+
+/* Chú thích & mô tả phụ: Xám trung tính #475569 (không bao giờ bị mờ) */
+[data-mode="light"] .text-slate-400,
+[data-theme="light-titanium"] .text-slate-400,
 [data-theme="light-nordic"] .text-slate-400 {
+  color: #475569 !important;
+}
+
+[data-mode="light"] .text-slate-500,
+[data-theme="light-titanium"] .text-slate-500,
+[data-theme="light-nordic"] .text-slate-500 {
+  color: #64748b !important;
+}
+
+/* ── CHUYỂN ĐỔI MÀU NHẤN SANG TÔNG ĐẬM (ĐẠT CHUẨN TƯƠNG PHẢN WCAG AAA) ── */
+/* Màu Xanh Lá (Emerald): Từ xanh dạ quang neon sang Xanh Lục Bảo Đậm #047857 */
+[data-mode="light"] .text-emerald-400,
+[data-mode="light"] .text-emerald-300,
+[data-mode="light"] .text-emerald-200,
+[data-theme="light-titanium"] .text-emerald-400,
+[data-theme="light-titanium"] .text-emerald-300,
+[data-theme="light-nordic"] .text-emerald-400,
+[data-theme="light-nordic"] .text-emerald-300 {
+  color: #047857 !important;
+}
+
+/* Màu Xanh Dương (Blue): Từ xanh nhạt sang Xanh Hoàng Gia Sắc Nét #1d4ed8 */
+[data-mode="light"] .text-blue-400,
+[data-mode="light"] .text-blue-300,
+[data-mode="light"] .text-blue-200,
+[data-theme="light-titanium"] .text-blue-400,
+[data-theme="light-titanium"] .text-blue-300,
+[data-theme="light-nordic"] .text-blue-400,
+[data-theme="light-nordic"] .text-blue-300 {
+  color: #1d4ed8 !important;
+}
+
+/* Màu Xanh Biển/Ngọc Bích (Cyan): Từ cyan chói sang Xanh Đại Dương Đậm #0e7490 */
+[data-mode="light"] .text-cyan-400,
+[data-mode="light"] .text-cyan-300,
+[data-mode="light"] .text-cyan-200,
+[data-theme="light-titanium"] .text-cyan-400,
+[data-theme="light-titanium"] .text-cyan-300,
+[data-theme="light-nordic"] .text-cyan-400,
+[data-theme="light-nordic"] .text-cyan-300 {
+  color: #0e7490 !important;
+}
+
+/* Màu Tím (Purple / Indigo): Tím Hoàng Gia #6d28d9 */
+[data-mode="light"] .text-purple-400,
+[data-mode="light"] .text-purple-300,
+[data-mode="light"] .text-indigo-400,
+[data-mode="light"] .text-indigo-300,
+[data-theme="light-titanium"] .text-purple-400,
+[data-theme="light-titanium"] .text-purple-300,
+[data-theme="light-nordic"] .text-purple-400,
+[data-theme="light-nordic"] .text-purple-300 {
+  color: #6d28d9 !important;
+}
+
+/* Màu Hổ Phách / Vàng (Amber): Tông Nâu Đồng #b45309 */
+[data-mode="light"] .text-amber-400,
+[data-mode="light"] .text-amber-300,
+[data-mode="light"] .text-amber-200,
+[data-theme="light-titanium"] .text-amber-400,
+[data-theme="light-titanium"] .text-amber-300,
+[data-theme="light-nordic"] .text-amber-400,
+[data-theme="light-nordic"] .text-amber-300 {
+  color: #b45309 !important;
+}
+
+/* Màu Đỏ (Red): Đỏ Hồng Ngọc #b91c1c */
+[data-mode="light"] .text-red-400,
+[data-mode="light"] .text-red-300,
+[data-theme="light-titanium"] .text-red-400,
+[data-theme="light-titanium"] .text-red-300,
+[data-theme="light-nordic"] .text-red-400,
+[data-theme="light-nordic"] .text-red-300 {
+  color: #b91c1c !important;
+}
+
+/* ── THIẾT KẾ HUY HIỆU & TAG PILLS TRONG CHẾ ĐỘ SÁNG (TƯƠI MÁT, TINH TẾ) ── */
+/* Huy hiệu Xanh Lá */
+[data-mode="light"] .bg-emerald-950,
+[data-mode="light"] .bg-emerald-950\/80,
+[data-mode="light"] .bg-emerald-950\/60,
+[data-mode="light"] .bg-emerald-950\/40,
+[data-mode="light"] .bg-emerald-500\/10,
+[data-mode="light"] .bg-emerald-500\/20,
+[data-theme="light-titanium"] .bg-emerald-950\/40,
+[data-theme="light-titanium"] .bg-emerald-500\/10,
+[data-theme="light-nordic"] .bg-emerald-950\/40,
+[data-theme="light-nordic"] .bg-emerald-500\/10 {
+  background-color: #ecfdf5 !important;
+  border-color: #a7f3d0 !important;
+  color: #047857 !important;
+}
+
+/* Huy hiệu Xanh Dương */
+[data-mode="light"] .bg-blue-950,
+[data-mode="light"] .bg-blue-950\/80,
+[data-mode="light"] .bg-blue-950\/70,
+[data-mode="light"] .bg-blue-950\/40,
+[data-mode="light"] .bg-blue-500\/10,
+[data-mode="light"] .bg-blue-500\/20,
+[data-theme="light-titanium"] .bg-blue-950\/40,
+[data-theme="light-titanium"] .bg-blue-500\/10,
+[data-theme="light-nordic"] .bg-blue-950\/40,
+[data-theme="light-nordic"] .bg-blue-500\/10 {
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #1d4ed8 !important;
+}
+
+/* Huy hiệu Cyan */
+[data-mode="light"] .bg-cyan-950,
+[data-mode="light"] .bg-cyan-950\/80,
+[data-mode="light"] .bg-cyan-950\/60,
+[data-mode="light"] .bg-cyan-950\/40,
+[data-mode="light"] .bg-cyan-500\/10,
+[data-mode="light"] .bg-cyan-500\/20,
+[data-theme="light-titanium"] .bg-cyan-950\/40,
+[data-theme="light-titanium"] .bg-cyan-500\/10,
+[data-theme="light-nordic"] .bg-cyan-950\/40,
+[data-theme="light-nordic"] .bg-cyan-500\/10 {
+  background-color: #ecfeff !important;
+  border-color: #a5f3fc !important;
+  color: #0e7490 !important;
+}
+
+/* Huy hiệu Tím */
+[data-mode="light"] .bg-purple-950,
+[data-mode="light"] .bg-purple-950\/40,
+[data-mode="light"] .bg-purple-500\/10,
+[data-mode="light"] .bg-purple-500\/20,
+[data-theme="light-titanium"] .bg-purple-950\/40,
+[data-theme="light-titanium"] .bg-purple-500\/10,
+[data-theme="light-nordic"] .bg-purple-950\/40,
+[data-theme="light-nordic"] .bg-purple-500\/10 {
+  background-color: #f5f3ff !important;
+  border-color: #ddd6fe !important;
+  color: #6d28d9 !important;
+}
+
+/* Huy hiệu Hổ phách */
+[data-mode="light"] .bg-amber-950,
+[data-mode="light"] .bg-amber-950\/40,
+[data-mode="light"] .bg-amber-500\/10,
+[data-mode="light"] .bg-amber-500\/20,
+[data-theme="light-titanium"] .bg-amber-950\/40,
+[data-theme="light-titanium"] .bg-amber-500\/10,
+[data-theme="light-nordic"] .bg-amber-950\/40,
+[data-theme="light-nordic"] .bg-amber-500\/10 {
+  background-color: #fffbeb !important;
+  border-color: #fde68a !important;
+  color: #b45309 !important;
+}
+
+/* ── NÚT BẤM (BUTTONS) TRONG CHẾ ĐỘ SÁNG ── */
+/* Nút bấm thứ cấp: Nền xám nhạt nhẹ nhàng, viền sạch sẽ, hover chuyển màu rõ ràng */
+[data-mode="light"] .bg-slate-800,
+[data-mode="light"] .bg-slate-800\/90,
+[data-mode="light"] .bg-slate-800\/80,
+[data-mode="light"] .bg-slate-800\/50,
+[data-mode="light"] .bg-slate-800\/40,
+[data-theme="light-titanium"] .bg-slate-800,
+[data-theme="light-nordic"] .bg-slate-800 {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-mode="light"] .bg-slate-800:hover,
+[data-theme="light-titanium"] .bg-slate-800:hover,
+[data-theme="light-nordic"] .bg-slate-800:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Nút tải file phụ (TAO_SHORTCUT, CHAY_NGAY_POWERSHELL, build_exe) */
+[data-mode="light"] .bg-slate-800.text-blue-300,
+[data-theme="light-titanium"] .bg-slate-800.text-blue-300,
+[data-theme="light-nordic"] .bg-slate-800.text-blue-300 {
+  background-color: #eff6ff !important;
+  border-color: #bfdbfe !important;
+  color: #1d4ed8 !important;
+}
+
+[data-mode="light"] .bg-slate-800.text-purple-300,
+[data-theme="light-titanium"] .bg-slate-800.text-purple-300,
+[data-theme="light-nordic"] .bg-slate-800.text-purple-300 {
+  background-color: #f5f3ff !important;
+  border-color: #ddd6fe !important;
+  color: #6d28d9 !important;
+}
+
+[data-mode="light"] .bg-slate-800.text-cyan-300,
+[data-theme="light-titanium"] .bg-slate-800.text-cyan-300,
+[data-theme="light-nordic"] .bg-slate-800.text-cyan-300 {
+  background-color: #ecfeff !important;
+  border-color: #a5f3fc !important;
+  color: #0e7490 !important;
+}
+
+/* ── KHỐI MÃ NGUỒN & TERMINAL CODE TRONG CHẾ ĐỘ SÁNG ── */
+[data-mode="light"] code,
+[data-theme="light-titanium"] code,
+[data-theme="light-nordic"] code {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-weight: 600;
+}
+
+[data-mode="light"] .bg-black\/40,
+[data-theme="light-titanium"] .bg-black\/40,
+[data-theme="light-nordic"] .bg-black\/40 {
+  background-color: #f8fafc !important;
+  border-color: #cbd5e1 !important;
+  color: #047857 !important;
+}
+
+/* ── CỬA SỔ POPUP & MODAL (THEME STUDIO, TUTORIAL, SCHEDULER, DROPDOWNS) ── */
+[data-mode="light"] #theme-studio-modal,
+[data-mode="light"] #scheduler-modal-card,
+[data-mode="light"] #app-tutorial-modal-card,
+[data-mode="light"] #dropdown-theme-list,
+[data-mode="light"] .max-w-3xl.bg-slate-900,
+[data-mode="light"] .max-w-4xl.bg-slate-900,
+[data-theme="light-titanium"] #theme-studio-modal,
+[data-theme="light-titanium"] #scheduler-modal-card,
+[data-theme="light-titanium"] #app-tutorial-modal-card,
+[data-theme="light-nordic"] #theme-studio-modal,
+[data-theme="light-nordic"] #scheduler-modal-card,
+[data-theme="light-nordic"] #app-tutorial-modal-card {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-mode="light"] #tooltip-quick-guide {
+  background-color: #ffffff !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15) !important;
+  color: #0f172a !important;
+}
+[data-mode="light"] #tooltip-quick-guide p {
   color: #334155 !important;
 }
 
-/* 3. CHẾ ĐỘ CYBER OLED (PURE BLACK #000000) */
+[data-mode="light"] #theme-toggle-segmented {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+[data-mode="light"] input,
+[data-mode="light"] textarea,
+[data-mode="light"] select,
+[data-theme="light-titanium"] input,
+[data-theme="light-titanium"] textarea,
+[data-theme="light-titanium"] select,
+[data-theme="light-nordic"] input,
+[data-theme="light-nordic"] textarea,
+[data-theme="light-nordic"] select {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+/* Đường viền phân cách chung */
+[data-mode="light"] .border-slate-800,
+[data-mode="light"] .border-slate-800\/90,
+[data-mode="light"] .border-slate-800\/80,
+[data-mode="light"] .border-slate-800\/60,
+[data-mode="light"] .border-slate-800\/50,
+[data-mode="light"] .border-slate-700,
+[data-mode="light"] .border-slate-700\/80,
+[data-theme="light-titanium"] .border-slate-800,
+[data-theme="light-titanium"] .border-slate-700,
+[data-theme="light-nordic"] .border-slate-800,
+[data-theme="light-nordic"] .border-slate-700 {
+  border-color: #e2e8f0 !important;
+}
+
+
+/* ==========================================================================
+   2. CHẾ ĐỘ CYBER OLED (ĐEN THUẦN #000000 - TIẾT KIỆM PIN TỐI ĐA)
+   ========================================================================== */
 [data-theme="cyber-oled"] {
   background-color: #000000 !important;
+  color: #f8fafc !important;
 }
-[data-theme="cyber-oled"] body {
-  background-color: #000000 !important;
-}
+[data-theme="cyber-oled"] body,
+[data-theme="cyber-oled"] .min-h-screen,
 [data-theme="cyber-oled"] .bg-slate-950 {
   background-color: #000000 !important;
 }
@@ -162,22 +464,25 @@ html {
 [data-theme="cyber-oled"] .bg-slate-900\/80,
 [data-theme="cyber-oled"] .bg-slate-900\/60 {
   background-color: #09090b !important;
+  border-color: #27272a !important;
 }
 [data-theme="cyber-oled"] .bg-slate-800 {
-  background-color: #18181b !important;
+  background-color: #141417 !important;
 }
 [data-theme="cyber-oled"] .border-slate-800,
 [data-theme="cyber-oled"] .border-slate-700 {
   border-color: #27272a !important;
 }
 
-/* 4. CHẾ ĐỘ EMERALD MATRIX */
+
+/* ==========================================================================
+   3. CHẾ ĐỘ EMERALD MATRIX (XANH LỤC BẢO AN NINH MẠNG)
+   ========================================================================== */
 [data-theme="emerald"] {
   background-color: #021a12 !important;
 }
-[data-theme="emerald"] body {
-  background-color: #021a12 !important;
-}
+[data-theme="emerald"] body,
+[data-theme="emerald"] .min-h-screen,
 [data-theme="emerald"] .bg-slate-950 {
   background-color: #021a12 !important;
 }
@@ -186,6 +491,7 @@ html {
 [data-theme="emerald"] .bg-slate-900\/80,
 [data-theme="emerald"] .bg-slate-900\/60 {
   background-color: #062b1f !important;
+  border-color: #0d4633 !important;
 }
 [data-theme="emerald"] .bg-slate-800 {
   background-color: #0b3b2c !important;
@@ -195,13 +501,15 @@ html {
   border-color: #0d4633 !important;
 }
 
-/* 5. CHẾ ĐỘ SEPIA / COFFEE COMFORT */
+
+/* ==========================================================================
+   4. CHẾ ĐỘ WARM SUNSET COFFEE (NÂU TRẦM CÀ PHÊ DỊU MẮT)
+   ========================================================================== */
 [data-theme="sepia"] {
   background-color: #171412 !important;
 }
-[data-theme="sepia"] body {
-  background-color: #171412 !important;
-}
+[data-theme="sepia"] body,
+[data-theme="sepia"] .min-h-screen,
 [data-theme="sepia"] .bg-slate-950 {
   background-color: #171412 !important;
 }
@@ -210,6 +518,7 @@ html {
 [data-theme="sepia"] .bg-slate-900\/80,
 [data-theme="sepia"] .bg-slate-900\/60 {
   background-color: #24201c !important;
+  border-color: #3b352f !important;
 }
 [data-theme="sepia"] .bg-slate-800 {
   background-color: #332d28 !important;
@@ -219,13 +528,15 @@ html {
   border-color: #3b352f !important;
 }
 
-/* 6. CHẾ ĐỘ ROYAL AMETHYST (DEEP PURPLE) */
+
+/* ==========================================================================
+   5. CHẾ ĐỘ ROYAL AMETHYST (TÍM HOÀNG GIA GAMING LUXURY)
+   ========================================================================== */
 [data-theme="royal-amethyst"] {
   background-color: #0c0714 !important;
 }
-[data-theme="royal-amethyst"] body {
-  background-color: #0c0714 !important;
-}
+[data-theme="royal-amethyst"] body,
+[data-theme="royal-amethyst"] .min-h-screen,
 [data-theme="royal-amethyst"] .bg-slate-950 {
   background-color: #0c0714 !important;
 }
@@ -234,6 +545,7 @@ html {
 [data-theme="royal-amethyst"] .bg-slate-900\/80,
 [data-theme="royal-amethyst"] .bg-slate-900\/60 {
   background-color: #180f28 !important;
+  border-color: #3b2366 !important;
 }
 [data-theme="royal-amethyst"] .bg-slate-800 {
   background-color: #251640 !important;
@@ -243,13 +555,16 @@ html {
   border-color: #3b2366 !important;
 }
 
-/* 7. CHẾ ĐỘ TỰ EDIT (CUSTOM THEME) */
+
+/* ==========================================================================
+   6. CHẾ ĐỘ TỰ THIẾT KẾ (CUSTOM THEME STUDIO)
+   ========================================================================== */
 [data-theme="custom"] {
   background-color: var(--custom-bg) !important;
+  color: var(--custom-text) !important;
 }
-[data-theme="custom"] body {
-  background-color: var(--custom-bg) !important;
-}
+[data-theme="custom"] body,
+[data-theme="custom"] .min-h-screen,
 [data-theme="custom"] .bg-slate-950 {
   background-color: var(--custom-bg) !important;
 }
@@ -258,6 +573,7 @@ html {
 [data-theme="custom"] .bg-slate-900\/80,
 [data-theme="custom"] .bg-slate-900\/60 {
   background-color: var(--custom-card) !important;
+  border-color: var(--custom-border) !important;
 }
 [data-theme="custom"] .bg-slate-800 {
   background-color: var(--custom-border) !important;
@@ -274,4 +590,3 @@ html {
 [data-theme="custom"] .rounded-2xl {
   border-radius: var(--custom-radius) !important;
 }
-

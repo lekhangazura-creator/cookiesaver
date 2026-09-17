@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Download, Puzzle, ShieldCheck, CheckCircle2, AlertTriangle, AlertOctagon,
   Folder, Sparkles, RefreshCw, Zap, ExternalLink, HardDrive, Check,
-  Info, Eye, Laptop, ArrowRight, Image as ImageIcon
+  Info, Eye, Laptop, ArrowRight, Image as ImageIcon, Copy
 } from 'lucide-react';
 import { downloadExtensionZipPackage, generateExtensionIconBase64 } from '../utils/extensionPackage';
 
@@ -11,6 +11,7 @@ interface Props {
 }
 
 export const ChromeExtensionCenter: React.FC<Props> = ({ onNotify }) => {
+  const [copiedExtensionUrl, setCopiedExtensionUrl] = useState(false);
   // 1. TỰ ĐỘNG GHI NHỚ VỊ TRÍ TẢI (Mô phỏng chrome.storage.local)
   const [savedFolder, setSavedFolder] = useState<string>(() => {
     return localStorage.getItem('ext_saved_download_folder') || 'Chrome_Backups/';
@@ -358,46 +359,69 @@ export const ChromeExtensionCenter: React.FC<Props> = ({ onNotify }) => {
 
         {/* CỘT PHẢI: HƯỚNG DẪN CÀI ĐẶT & SO SÁNH TÍNH NĂNG */}
         <div className="lg:col-span-6 flex flex-col gap-6">
-          {/* Hướng Dẫn Cài Đặt 3 Bước */}
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
-            <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-              <Laptop className="w-4 h-4 text-emerald-400" />
-              Cách Cài Đặt Tiện Ích Trên Google Chrome (3 Bước)
-            </h3>
+          {/* Hướng Dẫn Cài Đặt 3 Bước Cho Người Mới */}
+          <div className="bg-slate-900 border-2 border-cyan-500/30 rounded-2xl p-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
+                <Laptop className="w-4 h-4 text-cyan-400" />
+                Hướng Dẫn Cài Đặt Vào Chrome (3 Bước Dễ Hiểu)
+              </h3>
+              <span className="text-[10px] bg-cyan-950 text-cyan-300 border border-cyan-500/40 px-2.5 py-0.5 rounded-full font-bold">
+                ⭐ Chỉ mất 10 giây
+              </span>
+            </div>
 
             <div className="space-y-3">
-              <div className="flex items-start gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
-                <span className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center text-xs shrink-0">
+              <div className="flex items-start gap-3 bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                <span className="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 font-extrabold flex items-center justify-center text-xs shrink-0 border border-cyan-500/30">
                   1
                 </span>
                 <div className="text-xs space-y-1">
                   <span className="font-bold text-white block">Tải file ZIP và giải nén</span>
-                  <p className="text-slate-400">
-                    Bấm nút <strong className="text-cyan-400">Tải Gói Extension (.ZIP)</strong> bên trên và giải nén ra một thư mục trên máy tính (ví dụ: <code className="text-slate-300">D:\Chrome_Extension</code>).
+                  <p className="text-slate-400 leading-relaxed">
+                    Bấm nút <strong className="text-cyan-400">Tải Gói Extension (.ZIP)</strong> ở trên. Sau đó chuột phải vào file vừa tải và chọn <strong>"Extract All" (Giải nén)</strong>.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
-                <span className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center text-xs shrink-0">
+              <div className="flex items-start gap-3 bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                <span className="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 font-extrabold flex items-center justify-center text-xs shrink-0 border border-cyan-500/30">
                   2
                 </span>
-                <div className="text-xs space-y-1">
+                <div className="text-xs space-y-2 w-full">
                   <span className="font-bold text-white block">Mở trang Quản Lý Tiện Ích của Chrome</span>
-                  <p className="text-slate-400">
-                    Mở tab mới trên Chrome, gõ vào thanh địa chỉ: <code className="text-amber-300 bg-slate-900 px-1.5 py-0.5 rounded font-mono">chrome://extensions/</code> và gạt công tắc <strong>Developer mode</strong> (Chế độ cho nhà phát triển) ở góc phải sang <strong>BẬT</strong>.
+                  <p className="text-slate-400 leading-relaxed">
+                    Mở 1 tab mới trên Chrome, dán đường dẫn dưới đây vào thanh địa chỉ rồi nhấn Enter:
+                  </p>
+                  <div className="flex items-center gap-2 bg-slate-900 border border-slate-700 px-2.5 py-1.5 rounded-lg font-mono text-cyan-300 text-[11px] w-fit">
+                    <span>chrome://extensions/</span>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText('chrome://extensions/');
+                        setCopiedExtensionUrl(true);
+                        onNotify('Đã sao chép chrome://extensions/ vào bộ nhớ tạm!');
+                        setTimeout(() => setCopiedExtensionUrl(false), 2500);
+                      }}
+                      className="ml-2 px-2 py-0.5 rounded bg-cyan-950 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/30 text-[10px] font-sans flex items-center gap-1 cursor-pointer transition-colors"
+                    >
+                      {copiedExtensionUrl ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                      <span>{copiedExtensionUrl ? 'Đã copy!' : 'Sao chép'}</span>
+                    </button>
+                  </div>
+                  <p className="text-amber-300 text-[11px]">
+                    👉 Sau đó, gạt công tắc <strong>Developer mode</strong> (Chế độ cho nhà phát triển) ở góc trên bên phải sang <strong>BẬT</strong>.
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 bg-slate-950 p-3 rounded-xl border border-slate-800">
-                <span className="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 font-bold flex items-center justify-center text-xs shrink-0">
+              <div className="flex items-start gap-3 bg-slate-950 p-3.5 rounded-xl border border-slate-800">
+                <span className="w-7 h-7 rounded-xl bg-cyan-500/20 text-cyan-300 font-extrabold flex items-center justify-center text-xs shrink-0 border border-cyan-500/30">
                   3
                 </span>
                 <div className="text-xs space-y-1">
-                  <span className="font-bold text-white block">Bấm "Load unpacked" và chọn thư mục</span>
-                  <p className="text-slate-400">
-                    Nhấn nút <strong>Load unpacked</strong> (Tải tiện ích đã giải nén) ở góc trái và chọn thư mục vừa giải nén. Tiện ích sẽ xuất hiện ngay lập tức và sẵn sàng sử dụng!
+                  <span className="font-bold text-white block">Bấm "Load unpacked" và chọn thư mục vừa giải nén</span>
+                  <p className="text-slate-400 leading-relaxed">
+                    Bấm vào nút <strong>Load unpacked</strong> (Tải tiện ích đã giải nén) ở góc trái màn hình Chrome và chọn thư mục vừa giải nén ở Bước 1. Hoàn tất 100%!
                   </p>
                 </div>
               </div>

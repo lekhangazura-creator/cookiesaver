@@ -55,7 +55,7 @@ export const AppTutorialModal: React.FC<Props> = ({
       iconColor: 'text-amber-400 bg-amber-500/20 border-amber-500/40',
       description: 'Đây là công cụ sao lưu và phục hồi Google Chrome chuyên nghiệp, bảo toàn 100% tài khoản, Cookies và Mật khẩu trên mọi hệ điều hành (Windows, macOS, Linux).',
       highlights: [
-        '3 Ngăn chính trên Header: [Chrome Full Backup], [Tải Bản .EXE / Script], [Tải Bản Extension].',
+        '2 Ngăn chính trên Header: [Bản App (.EXE / Desktop)] và [Bản Extension].',
         'Bộ đổi giao diện Sáng / Tối và Theme Studio tùy biến màu sắc trực quan.',
         'Thiết kế Portable 100%: Không chèn file rác vào registry, dễ dàng di chuyển và sao chép.',
         'Hỗ trợ đầy đủ Tiếng Việt và các mẹo kỹ thuật chuẩn DPAPI.'
@@ -149,15 +149,15 @@ export const AppTutorialModal: React.FC<Props> = ({
       summary: 'Tự động lưu và nhớ đường dẫn thư mục backup vĩnh viễn vào config.json.',
       whatItDoes: 'Ghi nhớ đường dẫn lưu trữ để bạn không phải chọn lại mỗi lần mở app. Hỗ trợ chuyển sang ổ D:, E:, USB với 1 cú nhấp chuột.',
       howToUse: [
-        'Xem vị trí hiện tại ở thanh trên cùng của ngăn Chrome Full Backup.',
-        'Nhấn "Đổi vị trí" để nhập đường dẫn thư mục bạn mong muốn.',
+        'Xem vị trí hiện tại ở thanh cấu hình của Bản App (.EXE / Desktop).',
+        'Tập lệnh và App tự động lưu vị trí sao lưu vào config.json trong cùng thư mục.',
         'Đường dẫn sẽ được lưu tự động cho mọi lần sử dụng tiếp theo.'
       ],
       safetyNote: 'Đường dẫn hợp lệ trên Windows có dạng C:\\Users\\... hoặc D:\\Backups, trên macOS là ~/Documents/Backups.',
       actionButton: onNavigateToTab ? {
-        label: 'Xem Vị Trí Lưu Trữ',
+        label: 'Mở Bản App (.EXE)',
         action: () => {
-          onNavigateToTab('backup');
+          onNavigateToTab('app');
           onClose();
         }
       } : undefined
@@ -350,7 +350,7 @@ export const AppTutorialModal: React.FC<Props> = ({
       summary: 'Dọn dẹp sạch sẽ cấu hình tạm mà vẫn bảo toàn tuyệt đối các file .zip sao lưu.',
       whatItDoes: 'Thiết kế chuẩn Portable: khi cần xóa ứng dụng, chỉ dọn dẹp config.json và thư mục tạm, tuyệt đối không xóa các file sao lưu của bạn.',
       howToUse: [
-        'Nhấn nút "Gỡ cài đặt (Uninstall)" màu đỏ ở cuối trang Chrome Full Backup.',
+        'Nhấn nút "Gỡ cài đặt (Uninstall)" màu đỏ ở cuối trang Bản App.',
         'Hoặc chạy tệp UNINSTALL.bat trong thư mục cài đặt.'
       ],
       safetyNote: 'Mọi tệp .zip sao lưu trong thư mục của bạn VẪN NGUYÊN VẸN 100%.'

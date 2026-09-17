@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 import { ThemePreset } from '../types';
 
-export type AppTab = 'backup' | 'download' | 'extension';
+export type AppTab = 'app' | 'extension' | 'download';
 
 export interface Props {
   activeTab: AppTab;
@@ -146,50 +146,37 @@ export const Header: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* Cụm Điều Hướng 3 Ngăn & Theme Controls Cao Cấp */}
+        {/* Cụm Điều Hướng 2 Ngăn (Bản App & Bản Extension) */}
         <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto justify-end">
-          {/* 3 Ngăn Duy Nhất Được Yêu Cầu */}
           <nav className="flex items-center gap-1 sm:gap-1.5 bg-slate-950/80 p-1.5 rounded-xl border border-slate-800 text-xs overflow-x-auto max-w-full">
-            {/* Ngăn 1: Chrome Full Backup */}
+            {/* Ngăn 1: Bản App (.EXE / Desktop) */}
             <button
-              id="nav-tab-backup"
-              onClick={() => setActiveTab('backup')}
-              className={`px-3 sm:px-4 py-2 rounded-lg font-bold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
-                activeTab === 'backup'
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 shadow-sm shadow-emerald-950'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
-              }`}
-            >
-              <HardDrive className={`w-4 h-4 ${activeTab === 'backup' ? 'text-emerald-400' : 'text-slate-400'}`} />
-              <span>Chrome Full Backup</span>
-            </button>
-
-            {/* Ngăn 2: Tải Bản .EXE */}
-            <button
-              id="nav-tab-download"
-              onClick={() => setActiveTab('download')}
-              className={`px-3 sm:px-4 py-2 rounded-lg font-bold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
-                activeTab === 'download'
+              id="nav-tab-app"
+              onClick={() => setActiveTab('app')}
+              className={`px-3.5 sm:px-4 py-2 rounded-lg font-bold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
+                activeTab === 'app' || activeTab === 'download'
                   ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40 shadow-sm shadow-blue-950'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
+              title="Sao lưu đầy đủ cả Mật khẩu, Lịch sử, Dấu trang và Dữ liệu vào máy tính"
             >
-              <Download className={`w-4 h-4 ${activeTab === 'download' ? 'text-blue-400' : 'text-slate-400'}`} />
-              <span>Tải Bản .EXE</span>
+              <Download className={`w-4 h-4 ${activeTab === 'app' || activeTab === 'download' ? 'text-blue-400' : 'text-slate-400'}`} />
+              <span>💻 Bản Máy Tính (.EXE)</span>
             </button>
 
-            {/* Ngăn 3: Tải Bản Extension */}
+            {/* Ngăn 2: Bản Extension */}
             <button
               id="nav-tab-extension"
               onClick={() => setActiveTab('extension')}
-              className={`px-3 sm:px-4 py-2 rounded-lg font-bold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
+              className={`px-3.5 sm:px-4 py-2 rounded-lg font-bold transition-all flex items-center gap-1.5 sm:gap-2 cursor-pointer whitespace-nowrap ${
                 activeTab === 'extension'
                   ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-sm shadow-cyan-950'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900'
               }`}
+              title="Cài đặt tiện ích trực tiếp vào trình duyệt Google Chrome trong 10 giây"
             >
               <Puzzle className={`w-4 h-4 ${activeTab === 'extension' ? 'text-cyan-400' : 'text-slate-400'}`} />
-              <span>Tải Bản Extension</span>
+              <span>🧩 Bản Tiện Ích (Extension)</span>
             </button>
           </nav>
 

@@ -6,7 +6,6 @@
 import React, { useState, useEffect } from 'react';
 import JSZip from 'jszip';
 import { Header, AppTab } from './components/Header';
-import { ChromeFullBackup } from './components/ChromeFullBackup';
 import { DownloadCenter } from './components/DownloadCenter';
 import { ChromeExtensionCenter } from './components/ChromeExtensionCenter';
 import { ThemeStudioModal } from './components/ThemeStudioModal';
@@ -36,7 +35,7 @@ import { ShieldCheck, HardDrive, Download, Puzzle, CheckCircle2, Zap } from 'luc
 export const APP_VERSION = 'v5.3.0';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<AppTab>('backup');
+  const [activeTab, setActiveTab] = useState<AppTab>('app');
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   // Full-screen Loading Overlay State
@@ -129,7 +128,9 @@ export default function App() {
 
   // Apply theme dynamically to documentElement
   useEffect(() => {
+    const isLight = theme === 'light-titanium' || theme === 'light-nordic' || (theme === 'custom' && customSettings.mode === 'light');
     document.documentElement.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-mode', isLight ? 'light' : 'dark');
     localStorage.setItem('chrome_backup_theme_preset', theme);
 
     const root = document.documentElement;
@@ -156,14 +157,14 @@ export default function App() {
     setCustomSettings(defaultCustomSettings);
     localStorage.removeItem('chrome_backup_custom_theme');
     localStorage.setItem('chrome_backup_theme_preset', 'dark-slate');
-    showToast('Đã khôi phục giao diện mặc định Dark Slate!');
+    showToast('Đã khôi phục giao diện mặc định Dark Slate Pro!');
   };
 
   const handleToggleQuickTheme = () => {
-    const isCurrentLight = theme === 'light-titanium' || theme === 'light-nordic';
+    const isCurrentLight = theme === 'light-titanium' || theme === 'light-nordic' || (theme === 'custom' && customSettings.mode === 'light');
     if (isCurrentLight) {
       setTheme('dark-slate');
-      showToast('Đã chuyển sang Chế độ Tối (Dark Slate)');
+      showToast('Đã chuyển sang Chế độ Tối (Dark Slate Pro)');
     } else {
       setTheme('light-titanium');
       showToast('Đã chuyển sang Chế độ Sáng (Light Titanium Clean)');
@@ -345,62 +346,42 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 flex flex-col gap-6">
-        {/* Quick Highlights Info Bar */}
-        <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+        {/* Quick Highlights Info Bar - Hướng Dẫn Cho Người Mới */}
+        <div className="bg-slate-900/90 border border-slate-800/90 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs shadow-sm">
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-slate-300">
-            <span className="flex items-center gap-1.5 text-emerald-400 font-bold">
-              <ShieldCheck className="w-4 h-4" />
-              Đầy Đủ Cả 2 Bản: .EXE Desktop & Chrome Extension
+            <span className="flex items-center gap-1.5 text-emerald-400 font-bold bg-emerald-950/40 border border-emerald-500/30 px-2.5 py-1 rounded-lg">
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              Mẹo Cho Người Mới:
             </span>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            <span className="flex items-center gap-1.5 text-cyan-400">
-              <HardDrive className="w-4 h-4" />
-              Tự động ghi nhớ vị trí đã tải (Không cần chọn lại sau khi đóng app)
-            </span>
-            <span className="text-slate-600 hidden sm:inline">•</span>
-            <span className="flex items-center gap-1.5 text-amber-400">
-              <Zap className="w-4 h-4" />
-              Có thanh Bar % và hệ thống cảnh báo thông minh
+            <span className="text-slate-200 leading-relaxed">
+              Chọn <strong>Bản Máy Tính (.EXE)</strong> để giữ lại 100% mật khẩu & tài khoản; hoặc chọn <strong>Bản Tiện Ích (Extension)</strong> để dùng nhanh gọn trực tiếp trên trình duyệt.
             </span>
           </div>
 
           <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-            {activeTab !== 'backup' && (
+            {activeTab !== 'app' && activeTab !== 'download' && (
               <button
-                onClick={() => setActiveTab('backup')}
-                className="text-xs font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 shadow-sm shadow-emerald-950 cursor-pointer"
+                onClick={() => setActiveTab('app')}
+                className="text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 px-3.5 py-1.5 rounded-xl transition-all flex items-center gap-1.5 shadow-sm shadow-blue-950/20 cursor-pointer"
               >
-                <HardDrive className="w-3.5 h-3.5" />
-                <span>Mở Chrome Full Backup</span>
+                <Download className="w-3.5 h-3.5" />
+                <span>Xem Bản Máy Tính (.EXE)</span>
               </button>
             )}
             {activeTab !== 'extension' && (
               <button
                 onClick={() => setActiveTab('extension')}
-                className="text-xs font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 shadow-sm shadow-cyan-950 cursor-pointer"
+                className="text-xs font-bold text-white bg-cyan-600 hover:bg-cyan-500 px-3.5 py-1.5 rounded-xl transition-all flex items-center gap-1.5 shadow-sm shadow-cyan-950/20 cursor-pointer"
               >
                 <Puzzle className="w-3.5 h-3.5" />
-                <span>Mở Bản Extension</span>
+                <span>Xem Bản Tiện Ích (Extension)</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* 3 Ngăn Giao Diện Trực Quan */}
-        {activeTab === 'backup' && (
-          <ChromeFullBackup 
-            onDownloadScript={handleDownloadScript}
-            onDownloadZip={handleDownloadDesktopZip}
-            onSwitchToDownload={() => setActiveTab('download')}
-            onSwitchToExtension={() => setActiveTab('extension')}
-            onOpenTutorial={() => setIsTutorialOpen(true)}
-            schedulerConfig={schedulerConfig}
-            onUpdateSchedulerConfig={handleSaveSchedulerConfig}
-            onOpenSchedulerModal={() => setIsSchedulerModalOpen(true)}
-          />
-        )}
-
-        {activeTab === 'download' && (
+        {/* 2 Ngăn Giao Diện Trực Quan: Bản App (.EXE / Desktop) & Bản Extension */}
+        {(activeTab === 'app' || activeTab === 'download') && (
           <DownloadCenter 
             onDownloadScript={handleDownloadScript}
             onDownloadZip={handleDownloadDesktopZip}
