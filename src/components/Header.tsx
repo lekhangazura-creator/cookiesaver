@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { 
   ShieldCheck, Download, Puzzle, HardDrive, Sparkles, 
   Sun, Moon, Palette, ChevronDown, Check, Sliders, Zap,
-  HelpCircle, Clock, BookOpen, Calendar
+  HelpCircle, BookOpen, Calendar
 } from 'lucide-react';
 import { ThemePreset } from '../types';
 
@@ -107,21 +107,6 @@ export const Header: React.FC<Props> = ({
             >
               <HelpCircle className="w-4 h-4" />
             </button>
-
-            {onOpenScheduler && (
-              <button
-                id="btn-open-scheduler-mobile"
-                onClick={onOpenScheduler}
-                className={`p-2 rounded-xl border transition-all cursor-pointer shadow-sm ${
-                  schedulerEnabled 
-                    ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40' 
-                    : 'bg-slate-800 text-slate-400 border-slate-700'
-                }`}
-                title={schedulerEnabled ? "Lập lịch: Đang BẬT" : "Cài đặt lập lịch"}
-              >
-                <Clock className="w-4 h-4" />
-              </button>
-            )}
 
             <button
               id="btn-quick-theme-toggle-mobile"
@@ -248,26 +233,6 @@ export const Header: React.FC<Props> = ({
               <Palette className="w-3.5 h-3.5 text-emerald-400" />
               <span>Theme Studio</span>
             </button>
-
-            {/* NÚT TRẠNG THÁI LẬP LỊCH SAO LƯU (SCHEDULER QUICK ACCESS) */}
-            {onOpenScheduler && (
-              <button
-                id="btn-open-scheduler-header"
-                onClick={onOpenScheduler}
-                className={`px-3 py-1.5 rounded-lg font-bold text-xs border transition-all flex items-center gap-1.5 cursor-pointer shadow-sm ${
-                  schedulerEnabled
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/50 hover:bg-emerald-500/30'
-                    : 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-700 hover:text-white'
-                }`}
-                title="Lập Lịch Sao Lưu Tự Động: Tần suất hàng ngày / hàng tuần"
-              >
-                <Clock className={`w-3.5 h-3.5 ${schedulerEnabled ? 'text-emerald-400 animate-pulse' : 'text-slate-400'}`} />
-                <span>{schedulerEnabled ? (schedulerNextTime ? `Lịch: ${schedulerNextTime}` : 'Lịch: BẬT') : 'Lập Lịch'}</span>
-                {schedulerEnabled && (
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                )}
-              </button>
-            )}
 
             {/* NÚT 'HƯỚNG DẪN NHANH' (HELP/TUTORIAL) KÈM TOOLTIP HOVER & MODAL TRIGGER */}
             <div className="relative">
