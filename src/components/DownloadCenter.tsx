@@ -16,7 +16,9 @@ import {
   RUN_MACOS_COMMAND,
   RUN_LINUX_SH,
   BACKUP_CHROME_UNIX_SH,
-  UNINSTALL_UNIX_SH
+  UNINSTALL_UNIX_SH,
+  RUN_SILENT_VBS,
+  TAO_SHORTCUT_DESKTOP_BAT
 } from '../data/pythonScript';
 import { downloadExtensionZipPackage } from '../utils/extensionPackage';
 import { APP_VERSION } from '../App';
@@ -91,10 +93,12 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
 1. CÁC TẬP TIN DÀNH CHO TỪNG HỆ ĐIỀU HÀNH:
 
 ➤ DÀNH CHO WINDOWS:
-   - CHAY_NGAY_POWERSHELL.bat : Mở chạy ngay lập tức KHÔNG CẦN CÀI PYTHON (PowerShell Native)
-   - CHAY_NGAY_PYTHON.bat     : Mở chạy trực tiếp bằng Python
-   - build_exe.bat            : Đóng gói thành file ChromeBackupRestore.exe độc lập
-   - backup_chrome.ps1        : Script PowerShell độc lập
+   - CHAY_APP.vbs             : KHUYÊN DÙNG - Mở giao diện ngay, KHÔNG hiện cửa sổ đen console
+   - TAO_SHORTCUT_DESKTOP.bat : Tạo phím tắt icon ra màn hình chính Desktop (1-Click)
+   - CHAY_NGAY_PYTHON.bat     : Mở chạy trực tiếp qua Python
+   - CHAY_NGAY_POWERSHELL.bat : Mở Menu sao lưu / khôi phục KHÔNG CẦN CÀI PYTHON (PowerShell Native)
+   - build_exe.bat            : Đóng gói thành file ChromeBackupRestore.exe 1-File độc lập
+   - backup_chrome.ps1        : Script PowerShell độc lập (Menu tương tác)
    - UNINSTALL.bat            : Gỡ cài đặt 1-Click sạch sẽ
 
 ➤ DÀNH CHO MACOS (MacBook Apple Silicon M1/M2/M3 & Intel):
@@ -109,11 +113,15 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
 
 ➤ DÙNG CHUNG CHO MỌI HỆ ĐIỀU HÀNH:
    - chrome_backup_tool.py    : Mã nguồn Python GUI hoàn chỉnh đa nền tảng
-   - requirements.txt         : Khai báo thư viện (customtkinter, pyinstaller, psutil)
+   - requirements.txt         : Khai báo thư viện (pyinstaller, psutil, pystray, pillow)
    - HUONG_DAN_SU_DUNG.txt    : Tài liệu này
 
 2. HƯỚNG DẪN CHẠY TRÊN TỪNG HĐH:
-   • Windows: Double click vào "CHAY_NGAY_POWERSHELL.bat" hoặc "build_exe.bat" để tạo .exe.
+   • Windows:
+     - Cách 1 (Nhanh nhất): Double-click vào "CHAY_APP.vbs" hoặc "CHAY_NGAY_PYTHON.bat" (Mở app ngay không lỗi).
+     - Cách 2: Double-click "TAO_SHORTCUT_DESKTOP.bat" để có biểu tượng ngoài Desktop mở như app Windows chuẩn.
+     - Cách 3 (Không cần Python): Double-click "CHAY_NGAY_POWERSHELL.bat" để mở menu sao lưu/khôi phục PowerShell native.
+     - Cách 4 (Build .exe): Chạy "build_exe.bat" để tự đóng gói thành ChromeBackupRestore.exe độc lập.
    • macOS  : Mở Terminal, cấp quyền thực thi: "chmod +x CHAY_NGAY_MACOS.command" rồi double click chạy.
    • Linux  : Chạy terminal: "chmod +x CHAY_NGAY_LINUX.sh && ./CHAY_NGAY_LINUX.sh".
 
@@ -125,11 +133,13 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
       // ── BƯỚC XÁC THỰC BẮT BUỘC: Kiểm tra sự tồn tại và tính hợp lệ của tất cả các tệp TRƯỚC KHI tạo JSZip ──
       const allFiles = [
         // Windows
-        { name: "CHAY_NGAY_POWERSHELL.bat", content: RUN_POWERSHELL_BAT, desc: "Script chạy nhanh PowerShell Windows", os: ['all', 'windows'] },
+        { name: "CHAY_APP.vbs", content: RUN_SILENT_VBS, desc: "Mở app không hiện cửa sổ đen (Khuyên dùng)", os: ['all', 'windows'] },
+        { name: "TAO_SHORTCUT_DESKTOP.bat", content: TAO_SHORTCUT_DESKTOP_BAT, desc: "Tạo shortcut ra màn hình chính Desktop", os: ['all', 'windows'] },
         { name: "CHAY_NGAY_PYTHON.bat", content: RUN_PYTHON_BAT, desc: "Script chạy nhanh Python Windows", os: ['all', 'windows'] },
+        { name: "CHAY_NGAY_POWERSHELL.bat", content: RUN_POWERSHELL_BAT, desc: "Script chạy nhanh PowerShell Windows (Menu native)", os: ['all', 'windows'] },
         { name: "build_exe.bat", content: BUILD_BAT_CODE, desc: "Tập lệnh build EXE độc lập Windows", os: ['all', 'windows'] },
         { name: "UNINSTALL.bat", content: UNINSTALL_BAT_CODE, desc: "Tập lệnh gỡ cài đặt Windows", os: ['all', 'windows'] },
-        { name: "backup_chrome.ps1", content: POWERSHELL_SCRIPT, desc: "Script PowerShell native", os: ['all', 'windows'] },
+        { name: "backup_chrome.ps1", content: POWERSHELL_SCRIPT, desc: "Script PowerShell native có menu", os: ['all', 'windows'] },
         // macOS
         { name: "CHAY_NGAY_MACOS.command", content: RUN_MACOS_COMMAND, desc: "Script chạy Finder macOS", os: ['all', 'macos'] },
         { name: "UNINSTALL_MACOS.command", content: UNINSTALL_UNIX_SH, desc: "Script gỡ cài đặt macOS", os: ['all', 'macos'] },
@@ -431,7 +441,32 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
             </div>
           )}
 
-          {/* Card 2: build_exe.bat (Windows) */}
+          {/* Card 2: CHAY_APP.vbs (Windows - Khuyên dùng) */}
+          {(selectedOS === 'all' || selectedOS === 'windows') && (
+            <div className="bg-slate-900 border border-emerald-500/30 rounded-xl p-5 flex flex-col justify-between hover:border-emerald-500 transition-colors">
+              <div>
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-3">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <div className="flex items-center justify-between">
+                  <h4 className="font-bold text-white text-sm">CHAY_APP.vbs</h4>
+                  <span className="text-[10px] bg-emerald-500/20 text-emerald-300 font-semibold px-1.5 py-0.5 rounded border border-emerald-500/30">Khuyên dùng</span>
+                </div>
+                <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                  Chạy ngay ứng dụng Python GUI <strong className="text-emerald-400">hoàn toàn không hiện cửa sổ đen cmd</strong>, 100% không bị Windows Defender chặn!
+                </p>
+              </div>
+              <button
+                onClick={() => downloadFile("CHAY_APP.vbs", RUN_SILENT_VBS, "text/plain")}
+                className="mt-4 w-full py-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+              >
+                <Download className="w-3.5 h-3.5" />
+                Tải CHAY_APP.vbs (1 KB)
+              </button>
+            </div>
+          )}
+
+          {/* Card 3: build_exe.bat (Windows) */}
           {(selectedOS === 'all' || selectedOS === 'windows') && (
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col justify-between hover:border-blue-500/50 transition-colors">
               <div>
@@ -645,7 +680,7 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
           <div className="flex items-center justify-between text-xs text-slate-400">
             <span>Hoặc lệnh thủ công qua terminal (Windows / Mac / Linux):</span>
             <button
-              onClick={() => copyToClipboard('pip install customtkinter pyinstaller psutil && pyinstaller --onedir --windowed --collect-all customtkinter --name "ChromeBackupRestore" chrome_backup_tool.py', 'manual-cmd')}
+              onClick={() => copyToClipboard('pip install pyinstaller psutil pystray Pillow && pyinstaller --onefile --windowed --name "ChromeBackupRestore" chrome_backup_tool.py', 'manual-cmd')}
               className="text-slate-300 hover:text-white flex items-center gap-1 text-[11px] bg-slate-800 px-2 py-0.5 rounded transition-colors cursor-pointer"
             >
               {copiedCmd === 'manual-cmd' ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
@@ -653,7 +688,7 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
             </button>
           </div>
           <code className="text-xs font-mono text-emerald-400 bg-black/40 p-2.5 rounded border border-slate-800 overflow-x-auto">
-            pip install customtkinter pyinstaller psutil && pyinstaller --onedir --windowed --collect-all customtkinter --name "ChromeBackupRestore" chrome_backup_tool.py
+            pip install pyinstaller psutil pystray Pillow && pyinstaller --onefile --windowed --name "ChromeBackupRestore" chrome_backup_tool.py
           </code>
         </div>
       </div>

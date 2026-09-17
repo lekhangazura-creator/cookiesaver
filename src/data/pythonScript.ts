@@ -34,51 +34,79 @@ if not defined PY_CMD (
     exit /b 1
 )
 
-echo [1/3] Dang kiem tra va cai dat thu vien (customtkinter, pyinstaller, pystray, pillow)...
-%PY_CMD% -m pip install customtkinter pyinstaller psutil pystray Pillow --quiet
+echo [Buoc 1/4] Dang don dep ban build cu va cache...
+if exist "%~dp0dist" rmdir /s /q "%~dp0dist" >nul 2>&1
+if exist "%~dp0build" rmdir /s /q "%~dp0build" >nul 2>&1
+for %%f in ("%~dp0*.spec") do del /f /q "%%f" >nul 2>&1
 
-echo [2/3] Dang bien dich ma nguon thanh file .EXE doc lap...
-echo (Tien trinh se nhung day du System Tray, Auto Scheduler va Profile Selector)...
+echo.
+echo [Buoc 2/4] Dang cai dat/kiem tra PyInstaller, pystray, pillow, psutil...
+echo (Luu y: Ung dung su dung Tkinter chuan nen KHONG can customtkinter)...
+%PY_CMD% -m pip install pyinstaller psutil pystray Pillow
+
+echo.
+echo [Buoc 3/4] Dang bien dich ma nguon thanh file .EXE 1-File duy nhat...
+echo Tien trinh dang nhung day du System Tray, Theme Studio va Auto Scheduler...
 echo Vui long cho trong 30-60 giay...
 echo.
 
 %PY_CMD% -m PyInstaller --noconfirm ^
-    --onedir ^
+    --onefile ^
     --windowed ^
-    --collect-all customtkinter ^
-    --copy-metadata customtkinter ^
     --hidden-import tkinter ^
     --hidden-import pystray ^
     --hidden-import PIL ^
     --name "ChromeBackupRestore" ^
     --clean ^
-    chrome_backup_tool.py
+    "%~dp0chrome_backup_tool.py"
 
 if errorlevel 1 goto BUILD_FAIL
 
+if not exist "%~dp0dist\\ChromeBackupRestore.exe" goto BUILD_FAIL
+
+:: Kiem tra dung luong file: Neu duoi 1MB la bi loi hoac bi Antivirus can thiep cat xen
+for %%I in ("%~dp0dist\\ChromeBackupRestore.exe") do if %%~zI lss 1000000 goto CORRUPT_FAIL
+
 echo.
 echo =========================================================================
-echo [THANH CONG] DA TAO FILE .EXE HOAN TAT!
-echo Thu muc ung dung doc lap:
-echo  -> %CD%\\dist\\ChromeBackupRestore\\ChromeBackupRestore.exe
+echo [THANH CONG] DA TAO FILE .EXE DOC LAP HOAN TAT 100%%!
+echo File .EXE doc lap:
+echo  -> %~dp0dist\\ChromeBackupRestore.exe
 echo.
-echo Ban co the chep thu muc nay sang bat ky may nao ma khong can cai Python!
+echo Ban co the chep duy nhat 1 file nay ra Desktop hoac sang may khac dung ngay!
 echo =========================================================================
 echo.
-explorer "%CD%\\dist\\ChromeBackupRestore"
+explorer /select,"%~dp0dist\\ChromeBackupRestore.exe"
 pause
 exit /b 0
+
+:CORRUPT_FAIL
+echo.
+echo =========================================================================
+echo [CANH BAO] File ChromeBackupRestore.exe co kich thuoc bat thuong (duoi 1MB).
+echo Nguyen nhan: Windows Defender hoac Antivirus da chan / cach ly file khi build.
+echo.
+echo HUONG DAN XU LY NHANH:
+echo 1. Ban co the click dup "CHAY_APP.vbs" hoac "CHAY_NGAY_PYTHON.bat" de dung ngay
+echo    (Giao dien mo ngay lap tuc 100%% ma khong bi Windows Defender chan).
+echo 2. Hoac tam tat Real-time Protection cua Windows Defender va chay lai build_exe.bat.
+echo =========================================================================
+echo.
+pause
+exit /b 1
 
 :BUILD_FAIL
 echo.
 echo =========================================================================
-echo [LOI] Qua trinh dong goi gap su co.
-echo Ban co the mo truc tiep bang 1 trong 2 cach sau:
-echo  -> CHAY_NGAY_POWERSHELL.bat (100%% chay ngay khong can Python)
-echo  -> CHAY_NGAY_PYTHON.bat (Chay truc tiep ma nguon Python)
+echo [LOI] Qua trinh dong goi .EXE gap su co.
+echo GIAI PHAP DUNG NGAY 100%% (KHONG CAN BUILD .EXE):
+echo  -> Click dup "CHAY_APP.vbs" (Mo truc tiep khong hien cua so den console!)
+echo  -> Click dup "CHAY_NGAY_PYTHON.bat" (Khoi chay truc tiep Python)
+echo  -> Hoac click dup "CHAY_NGAY_POWERSHELL.bat"
 echo =========================================================================
 echo.
 pause
+exit /b 1
 `;
 
 export const RUN_PYTHON_BAT = `@echo off
@@ -91,6 +119,13 @@ echo =========================================================================
 echo.
 
 set PY_CMD=
+set PYW_CMD=
+
+where pyw >nul 2>&1
+if %errorlevel% equ 0 set PYW_CMD=pyw -3
+where pythonw >nul 2>&1
+if %errorlevel% equ 0 if not defined PYW_CMD set PYW_CMD=pythonw
+
 where py >nul 2>&1
 if %errorlevel% equ 0 (
     set PY_CMD=py -3
@@ -123,20 +158,72 @@ exit /b 1
 
 :EXEC_PY
 echo [OK] Dang su dung trinh thuc thi: %PY_CMD%
-%PY_CMD% chrome_backup_tool.py
-if errorlevel 1 goto RUN_ERROR
-exit /b 0
+if defined PYW_CMD (
+    echo [OK] Dang mo ung dung giao dien cua so (khong console)...
+    start "" %PYW_CMD% "%~dp0chrome_backup_tool.py"
+    exit /b 0
+) else (
+    %PY_CMD% "%~dp0chrome_backup_tool.py"
+    if errorlevel 1 goto RUN_ERROR
+    exit /b 0
+)
 
 :RUN_ERROR
 echo.
 echo =========================================================================
-echo [THONG BAO] Ung dung Python chua mo duoc.
-echo Nguyen nhan pho bien: Chua cai thu vien giao dien customtkinter hoac pystray.
-echo.
-echo HUONG DAN XU LY NHANH:
-echo 1. Click dup vao file "CHAY_NGAY_POWERSHELL.bat" de chay ngay 100%% khong loi!
-echo 2. Hoac click dup vao "build_exe.bat" de tu dong cai thu vien va tao file .exe
+echo [THONG BAO] Ung dung Python gap loi khi khoi chay.
+echo Dang tu dong kiem tra va cai cac thu vien can thiet...
 echo =========================================================================
+%PY_CMD% -m pip install psutil pystray Pillow
+%PY_CMD% "%~dp0chrome_backup_tool.py"
+pause
+`;
+
+export const RUN_SILENT_VBS = `Set WshShell = CreateObject("WScript.Shell")
+Set fso = CreateObject("Scripting.FileSystemObject")
+currentDir = fso.GetParentFolderName(WScript.ScriptFullName)
+pyScript = """" & currentDir & "\\chrome_backup_tool.py"""
+
+' Uu tien chay bang pythonw.exe de chay ngam khong xuat hien bat ky hop den cmd nao
+On Error Resume Next
+WshShell.Run "pythonw.exe " & pyScript, 0, False
+If Err.Number <> 0 Then
+    Err.Clear
+    WshShell.Run "pyw.exe -3 " & pyScript, 0, False
+    If Err.Number <> 0 Then
+        Err.Clear
+        WshShell.Run "python.exe " & pyScript, 1, False
+    End If
+End If
+`;
+
+export const TAO_SHORTCUT_DESKTOP_BAT = `@echo off
+title Tao Phim Tat Chrome Backup ra Desktop
+color 0a
+
+echo =========================================================================
+echo   TAO PHIM TAT (SHORTCUT) CHROME FULL BACKUP RA MAN HINH CHINH (DESKTOP)
+echo =========================================================================
+echo.
+
+set SCRIPT_DIR=%~dp0
+set VBS_TARGET=%SCRIPT_DIR%CHAY_APP.vbs
+
+echo Set oWS = WScript.CreateObject("WScript.Shell") > "%TEMP%\\CreateShortcut.vbs"
+echo sLinkFile = oWS.SpecialFolders("Desktop") ^& "\\Chrome Full Backup Tool.lnk" >> "%TEMP%\\CreateShortcut.vbs"
+echo Set oLink = oWS.CreateShortcut(sLinkFile) >> "%TEMP%\\CreateShortcut.vbs"
+echo oLink.TargetPath = "wscript.exe" >> "%TEMP%\\CreateShortcut.vbs"
+echo oLink.Arguments = """%VBS_TARGET%""" >> "%TEMP%\\CreateShortcut.vbs"
+echo oLink.WorkingDirectory = "%SCRIPT_DIR%" >> "%TEMP%\\CreateShortcut.vbs"
+echo oLink.Description = "Chrome 100%% Full Backup & Auto Scheduler" >> "%TEMP%\\CreateShortcut.vbs"
+echo oLink.IconLocation = "shell32.dll,264" >> "%TEMP%\\CreateShortcut.vbs"
+echo oLink.Save >> "%TEMP%\\CreateShortcut.vbs"
+
+cscript //nologo "%TEMP%\\CreateShortcut.vbs"
+del "%TEMP%\\CreateShortcut.vbs" >nul 2>&1
+
+echo [THANH CONG] Da tao Shortcut "Chrome Full Backup Tool" tren Desktop!
+echo Tu gio ban chi can click dup icon ngoai Desktop de mo app giong het nhu file .exe!
 echo.
 pause
 `;
@@ -211,8 +298,7 @@ pause
 exit /b 0
 `;
 
-export const REQUIREMENTS_TXT = `customtkinter>=5.2.0
-psutil>=5.9.0
+export const REQUIREMENTS_TXT = `psutil>=5.9.0
 pyinstaller>=6.0.0
 pystray>=0.19.5
 Pillow>=9.0.0
@@ -260,8 +346,8 @@ function Backup-Chrome {
     $Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
     $ZipFile = "$BackupFolder\\Chrome_Backup_$Timestamp.zip"
 
-    Write-Host "[!] CANH BAO QUAN TRONG: DANG SAO LUU DU LIEU - TUYET DOI DUNG TAT APP HOAC DONG CUA SO NAY!" -ForegroundColor Red
-    Write-Host "[2/3] Đang sao lưu toàn bộ thư mục Chrome vào vị trí đã nhớ ($BackupFolder)..." -ForegroundColor Cyan
+    Write-Host "[!] CẢNH BÁO QUAN TRỌNG: ĐANG SAO LƯU DỮ LIỆU - TUYỆT ĐỐI KHÔNG TẮT CỬA SỔ NÀY!" -ForegroundColor Red
+    Write-Host "[2/3] Đang sao lưu toàn bộ thư mục Chrome vào: $BackupFolder..." -ForegroundColor Cyan
     Compress-Archive -Path "$ChromeDir\\*" -DestinationPath $ZipFile -CompressionLevel Optimal -Force
     
     Write-Host "[3/3] SAO LƯU HOÀN TẤT 100%!" -ForegroundColor Green
@@ -300,6 +386,89 @@ function Restore-Chrome-1Click {
 
     Write-Host "[3/3] KHÔI PHỤC THÀNH CÔNG 100%!" -ForegroundColor Green
     Open-Chrome
+}
+
+# =============================================================================
+# VÒNG LẶP MENU TƯƠNG TÁC POWERSHELL NATIVE
+# =============================================================================
+function Show-Native-Menu {
+    Clear-Host
+    Write-Host "=========================================================================" -ForegroundColor Cyan
+    Write-Host "   CHROME 100% FULL BACKUP & AUTO RESTORE (POWERSHELL NATIVE)           " -ForegroundColor Green
+    Write-Host "   Tương thích 100% Windows 10/11 • Không cần cài Python hay thư viện    " -ForegroundColor Yellow
+    Write-Host "=========================================================================" -ForegroundColor Cyan
+    Write-Host ""
+    Write-Host " [📁 Thư mục lưu trữ] : $BackupFolder" -ForegroundColor White
+    $chromeRunning = Get-Process -Name "chrome" -ErrorAction SilentlyContinue
+    if ($chromeRunning) {
+        Write-Host " [🌐 Google Chrome ] : Đang chạy ($($chromeRunning.Count) tiến trình)" -ForegroundColor Yellow
+    } else {
+        Write-Host " [🌐 Google Chrome ] : Đã đóng (Sẵn sàng sao lưu / khôi phục)" -ForegroundColor Green
+    }
+    Write-Host ""
+    Write-Host " CÁC TÁC VỤ KHẢ DỤNG:" -ForegroundColor Cyan
+    Write-Host "  [1] ⚡ 1-Click SAO LƯU 100% Toàn Bộ Chrome (Profiles, Cookies, Tabs, Mật khẩu)" -ForegroundColor Green
+    Write-Host "  [2] 🔄 1-Click KHÔI PHỤC Toàn Bộ từ bản sao lưu gần nhất" -ForegroundColor Magenta
+    Write-Host "  [3] 📂 Mở thư mục chứa các bản sao lưu trong File Explorer" -ForegroundColor Yellow
+    Write-Host "  [4] 🚀 Mở giao diện đồ họa Python GUI (Nếu máy đã cài Python)" -ForegroundColor Blue
+    Write-Host "  [0] Thoát ứng dụng" -ForegroundColor Red
+    Write-Host ""
+    Write-Host "-------------------------------------------------------------------------" -ForegroundColor DarkGray
+}
+
+$running = $true
+while ($running) {
+    Show-Native-Menu
+    $choice = Read-Host "Nhập số lựa chọn của bạn (1/2/3/4/0)"
+    switch ($choice.Trim()) {
+        "1" {
+            Write-Host ""
+            Backup-Chrome
+            Write-Host ""
+            Write-Host "Nhấn phím bất kỳ để quay lại menu..." -ForegroundColor Gray
+            $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        }
+        "2" {
+            Write-Host ""
+            Restore-Chrome-1Click
+            Write-Host ""
+            Write-Host "Nhấn phím bất kỳ để quay lại menu..." -ForegroundColor Gray
+            $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+        }
+        "3" {
+            Write-Host ""
+            if (!(Test-Path $BackupFolder)) {
+                New-Item -ItemType Directory -Force -Path $BackupFolder | Out-Null
+            }
+            Start-Process explorer.exe -ArgumentList $BackupFolder
+            Write-Host "[✓] Đã mở thư mục: $BackupFolder" -ForegroundColor Green
+            Start-Sleep -Seconds 2
+        }
+        "4" {
+            Write-Host ""
+            $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+            $pyScript = Join-Path $scriptDir "chrome_backup_tool.py"
+            if (Test-Path $pyScript) {
+                Write-Host "[+] Đang mở giao diện đồ họa Python..." -ForegroundColor Cyan
+                Start-Process pythonw.exe -ArgumentList $pyScript -ErrorAction SilentlyContinue
+                if ($LASTEXITCODE -ne 0) {
+                    Start-Process python.exe -ArgumentList $pyScript -ErrorAction SilentlyContinue
+                }
+            } else {
+                Write-Host "[!] Không tìm thấy file chrome_backup_tool.py trong cùng thư mục!" -ForegroundColor Red
+            }
+            Start-Sleep -Seconds 2
+        }
+        "0" {
+            Write-Host ""
+            Write-Host "Cảm ơn bạn đã sử dụng Chrome Full Backup! Tạm biệt." -ForegroundColor Green
+            $running = $false
+        }
+        default {
+            Write-Host "[!] Lựa chọn không hợp lệ, vui lòng chọn lại." -ForegroundColor Red
+            Start-Sleep -Seconds 1
+        }
+    }
 }
 `;
 

@@ -3,10 +3,10 @@ import {
   FileCode, Copy, Check, Download, Terminal, 
   Settings, CheckCircle2, ChevronRight 
 } from 'lucide-react';
-import { PYTHON_SCRIPT_CODE, BUILD_BAT_CODE, REQUIREMENTS_TXT, POWERSHELL_SCRIPT } from '../data/pythonScript';
+import { PYTHON_SCRIPT_CODE, BUILD_BAT_CODE, REQUIREMENTS_TXT, POWERSHELL_SCRIPT, RUN_SILENT_VBS } from '../data/pythonScript';
 
 export const CodeViewer: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'python' | 'bat' | 'ps1' | 'req'>('python');
+  const [activeTab, setActiveTab] = useState<'python' | 'bat' | 'vbs' | 'ps1' | 'req'>('python');
   const [copied, setCopied] = useState(false);
 
   const getCodeContent = () => {
@@ -15,6 +15,8 @@ export const CodeViewer: React.FC = () => {
         return { code: PYTHON_SCRIPT_CODE, name: 'chrome_backup_tool.py', lang: 'python' };
       case 'bat':
         return { code: BUILD_BAT_CODE, name: 'build_exe.bat', lang: 'bat' };
+      case 'vbs':
+        return { code: RUN_SILENT_VBS, name: 'CHAY_APP.vbs', lang: 'vb' };
       case 'ps1':
         return { code: POWERSHELL_SCRIPT, name: 'backup_chrome.ps1', lang: 'powershell' };
       case 'req':
@@ -60,6 +62,19 @@ export const CodeViewer: React.FC = () => {
           >
             <FileCode className="w-4 h-4" />
             chrome_backup_tool.py (Mã nguồn chính)
+          </button>
+
+          <button
+            id="tab-vbs"
+            onClick={() => setActiveTab('vbs')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-2 transition-colors whitespace-nowrap ${
+              activeTab === 'vbs'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+            }`}
+          >
+            <Terminal className="w-4 h-4 text-emerald-300" />
+            CHAY_APP.vbs (Chạy không console)
           </button>
 
           <button

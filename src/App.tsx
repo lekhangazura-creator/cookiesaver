@@ -26,7 +26,9 @@ import {
   RUN_MACOS_COMMAND,
   RUN_LINUX_SH,
   BACKUP_CHROME_UNIX_SH,
-  UNINSTALL_UNIX_SH
+  UNINSTALL_UNIX_SH,
+  RUN_SILENT_VBS,
+  TAO_SHORTCUT_DESKTOP_BAT
 } from './data/pythonScript';
 import { EXTENSION_MANIFEST, EXTENSION_POPUP_HTML, EXTENSION_POPUP_JS, EXTENSION_BACKGROUND_JS, EXTENSION_STYLE_CSS } from './data/extensionFiles';
 import { ShieldCheck, HardDrive, Download, Puzzle, CheckCircle2, Zap } from 'lucide-react';
@@ -240,6 +242,8 @@ Phiên bản: ${APP_VERSION} (Hỗ trợ Đa Hệ Điều Hành: Windows • mac
       // ── BƯỚC XÁC THỰC BẮT BUỘC: Kiểm tra sự tồn tại và tính hợp lệ của tất cả các tệp TRƯỚC KHI tạo JSZip ──
       const requiredFiles = [
         { name: 'chrome_backup_tool.py', content: PYTHON_SCRIPT_CODE, desc: 'Mã nguồn Python GUI' },
+        { name: 'CHAY_APP.vbs', content: RUN_SILENT_VBS, desc: 'Chạy app không hiện console' },
+        { name: 'TAO_SHORTCUT_DESKTOP.bat', content: TAO_SHORTCUT_DESKTOP_BAT, desc: 'Tạo shortcut Desktop' },
         { name: 'build_exe.bat', content: BUILD_BAT_CODE, desc: 'Tập lệnh đóng gói .EXE' },
         { name: 'CHAY_NGAY_POWERSHELL.bat', content: RUN_POWERSHELL_BAT, desc: 'Khởi chạy PowerShell Native' },
         { name: 'CHAY_NGAY_PYTHON.bat', content: RUN_PYTHON_BAT, desc: 'Khởi chạy Python Native' },
